@@ -15,7 +15,6 @@
 (eval-when-compile
   (require 'use-package))
 
-
 ;; helper functions
 (defun my/log-package-init (packageName) (message (format "Initializing package: %s" packageName)))
 
@@ -59,6 +58,9 @@ current buffer directory."
 (defun my/bootstrap-font ()
   (add-to-list 'load-path "~/.local/share/icons-in-terminal/")
   (when (window-system)
+    (add-hook 'helm-major-mode-hook
+	    (lambda ()
+	      (setq auto-composition-mode nil)))
     (set-default-font "Fira Code 14"))
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
@@ -97,16 +99,18 @@ current buffer directory."
     ("<SPC> bb" "buffer list")
     ("<SPC> bd" "kill buffer")
     ("<SPC> bm" "open message buffer")
+    ("<SPC> bo" "kill other buffers")
     ("<SPC> bY" "yank whole buffer")
     ("<SPC> f" "files")
     ("<SPC> fe" "emacs")
     ("<SPC> fed" "find dotfile")
     ("<SPC> fer" "reload dotfile")
+    ("<SPC> p" "project")
     ("<SPC> pb" "buffers")
-    ("<SPC> pp" "open project")
+    ("<SPC> po" "open project")
     ("<SPC> pt" "project explorer")
     ("<SPC> s" "search")
-    ("<SPC> sa" "search all files")
+    ("<SPC> sA" "search all files")
     ("<SPC> sb" "search open buffers")
     ("<SPC> sf" "search this file")
     ("<SPC> sp" "search current project")
@@ -239,7 +243,7 @@ current buffer directory."
     (evil-leader/set-key "pt" 'my/open-neotree-project-root-or-current-dir)
 
     ;; search
-    (evil-leader/set-key "sa" 'helm-do-ag)
+    (evil-leader/set-key "sA" 'helm-do-ag)
     (evil-leader/set-key "sb" 'helm-ag-buffers)
     (evil-leader/set-key "sf" 'helm-ag-this-file)
     (evil-leader/set-key "sp" 'helm-projectile-ag)
@@ -329,8 +333,7 @@ current buffer directory."
 	    (all-the-icons-faicon "cube") ;; Feature
 	    ))
 
-    (add-hook 'prog-mode-hook 'company-box-mode)
-    )
+    (add-hook 'prog-mode-hook 'company-box-mode))
 
 (use-package company-quickhelp
   :pin melpa-stable
