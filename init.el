@@ -107,6 +107,8 @@ current buffer directory."
     ("<SPC> fer" "reload dotfile")
     ("<SPC> p" "project")
     ("<SPC> pb" "buffers")
+    ("<SPC> pf" "special files")
+    ("<SPC> pfe" "open editorconfig")
     ("<SPC> po" "open project")
     ("<SPC> pt" "project explorer")
     ("<SPC> s" "search")
@@ -231,7 +233,7 @@ current buffer directory."
     (evil-leader/set-key "bm" 'my/open-messages-buffer)
     (evil-leader/set-key "bo" 'my/kill-other-buffers)
     (evil-leader/set-key "bY" 'my/not-implemented)
-    
+
 
     ;; keybinds - file
     (evil-leader/set-key "fed" 'my/find-dot-file)
@@ -239,6 +241,7 @@ current buffer directory."
 
     ;;project management
     (evil-leader/set-key "pb" 'helm-projectile-switch-to-buffer)
+    (evil-leader/set-key "pfe" 'editorconfig-find-current-editorconfig)
     (evil-leader/set-key "po" 'helm-projectile-switch-project)
     (evil-leader/set-key "pt" 'my/open-neotree-project-root-or-current-dir)
 
@@ -289,7 +292,7 @@ current buffer directory."
   :init
     (my/log-package-init "helm-projectile")
   )
- 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -297,7 +300,7 @@ current buffer directory."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+    (git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -349,6 +352,95 @@ current buffer directory."
   :init
   (my/log-package-init "projectile")
   (add-hook 'after-init-hook 'projectile-mode))
-
+;; restart emacs
 (use-package restart-emacs :pin melpa-stable)
 
+(use-package doom-modeline
+    :ensure t
+    :init (my/log-package-init "doom-modeline")
+    :defer t
+    :hook (after-init . doom-modeline-init))
+
+(use-package evil-anzu
+  :hook (after-init . global-anzu-mode)
+  :init (my/log-package-init "evil-anzu"))
+
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+(use-package fringe-helper :ensure t)
+
+(use-package git-gutter+
+	:hook (after-init . global-git-gutter+-mode)
+	:init
+		(my/log-package-init "git-gutter+")
+	)
+(use-package git-gutter-fringe+
+	:ensure t
+	:after (git-gutter+ fringe-helper)
+	:init
+		(setq git-gutter-fr+-side 'right-fringe)
+		(setq-default right-fringe-width 8)
+	:config
+		(set-face-foreground 'git-gutter+-modified "blue")
+		(set-face-foreground 'git-gutter+-added    "green")
+		(set-face-foreground 'git-gutter+-deleted  "red")
+		(fringe-helper-define 'git-gutter-fr+-added nil
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX")
+
+		(fringe-helper-define 'git-gutter-fr+-deleted nil
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX")
+
+		(fringe-helper-define 'git-gutter-fr+-modified nil
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX"
+			"....XXXX")
+	)
