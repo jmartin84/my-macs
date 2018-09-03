@@ -383,64 +383,12 @@ current buffer directory."
 	:init
 		(setq git-gutter-fr+-side 'right-fringe)
 		(setq-default right-fringe-width 8)
+		(setq-default fringes-outside-margins t)
 	:config
 		(set-face-foreground 'git-gutter+-modified "blue")
 		(set-face-foreground 'git-gutter+-added    "green")
 		(set-face-foreground 'git-gutter+-deleted  "red")
-		(fringe-helper-define 'git-gutter-fr+-added nil
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX")
+		(fringe-helper-define 'git-gutter-fr+-added '(center repeated) "....XXXX")
 
-		(fringe-helper-define 'git-gutter-fr+-deleted nil
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX")
-
-		(fringe-helper-define 'git-gutter-fr+-modified nil
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX"
-			"....XXXX")
-	)
+		(fringe-helper-define 'git-gutter-fr+-deleted '(center repeated) "....XXXX")
+		(fringe-helper-define 'git-gutter-fr+-modified '(center repeated) "....XXXX"))
