@@ -139,6 +139,8 @@ current buffer directory."
 (tool-bar-mode -1)
 (set-default 'truncate-lines t)
 (scroll-bar-mode -1)
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode t)
 (my/bootstrap-font)
 
 
@@ -176,15 +178,6 @@ current buffer directory."
   :pin melpa-stable
   :ensure t
   :after (evil-leader))
-
-;; nlinum
-(use-package nlinum-relative
-  :ensure t
-  :init
-    (my/log-package-init "nlinum-relative")
-    (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-  :commands (nlinum-relative-mode)
-  :config (nlinum-relative-setup-evil))
 
 ;; neo-tree
 (use-package neotree
