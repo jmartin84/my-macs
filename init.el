@@ -23,6 +23,16 @@
 (defun my/open-messages-buffer () (interactive) (switch-to-buffer "*Messages*"))
 (defun my/restart-and-debug () (interactive) (restart-emacs '("--debug-init")))
 
+(defun my/configure-flycheck-for-js () (interactive)
+	(let* ((root (locate-dominating-file
+				(or (buffer-file-name) default-directory)
+				"node_modules"))
+		(eslint (and root
+					(expand-file-name "node_modules/eslint/bin/eslint.js"
+										root))))
+	(when (and eslint (file-executable-p eslint))
+	(setq-local flycheck-javascript-eslint-executable eslint))))
+
 (defun my/kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
@@ -107,8 +117,9 @@ current buffer directory."
     ("<SPC> fer" "reload dotfile")
     ("<SPC> p" "project")
     ("<SPC> pb" "buffers")
-    ("<SPC> pf" "special files")
-    ("<SPC> pfe" "open editorconfig")
+    ("<SPC> pf" "find file")
+    ("<SPC> ps" "special files")
+    ("<SPC> pse" "open editorconfig")
     ("<SPC> po" "open project")
     ("<SPC> pt" "project explorer")
     ("<SPC> s" "search")
@@ -134,15 +145,20 @@ current buffer directory."
     ("<SPC> qr" "quit and restart")))
 
 ;; general config
+;; add modules to load path
 (message "--Executing general config--")
+
+(defvar emacs-dir (file-truename user-emacs-directory) "Path to Emacs dir.")
+(defvar modules-dir (concat emacs-dir "modules/") "Path to modules dir.")
+
 (setq default-frame-alist '((ns-transparent-titlebar . t) (ns-appearance . 'nil)))
 (tool-bar-mode -1)
 (set-default 'truncate-lines t)
 (scroll-bar-mode -1)
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode t)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
 (my/bootstrap-font)
-
 
 (use-package exec-path-from-shell
   :ensure t
@@ -153,7 +169,7 @@ current buffer directory."
   :init
     (my/log-package-init "theme")
     (setq doom-themes-enable-bold t
-	  doom-thmes-enable-italic t)
+	  doom-themes-enable-italic t)
   :config
     (load-theme 'doom-city-lights t)
     (doom-themes-visual-bell-config))
@@ -179,6 +195,8 @@ current buffer directory."
   :ensure t
   :after (evil-leader))
 
+;; all-the-icons
+(use-package all-the-icons)
 ;; neo-tree
 (use-package neotree
   :init
@@ -192,8 +210,10 @@ current buffer directory."
 	  neo-dont-be-alone t
 	  neo-persist-show nil
 	  neo-auto-indent-point t
-	  neo-vc-integration t)
-  :after (doom-themes projectile)
+		neo-vc-integration t
+		neo-theme 'icons
+		doom-neotree-file-icons t)
+  :after (doom-themes projectile all-the-icons)
   :config
     (doom-themes-neotree-config)
     (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
@@ -234,7 +254,8 @@ current buffer directory."
 
     ;;project management
     (evil-leader/set-key "pb" 'helm-projectile-switch-to-buffer)
-    (evil-leader/set-key "pfe" 'editorconfig-find-current-editorconfig)
+    (evil-leader/set-key "pf" 'helm-projectile-find-file)
+    (evil-leader/set-key "pse" 'editorconfig-find-current-editorconfig)
     (evil-leader/set-key "po" 'helm-projectile-switch-project)
     (evil-leader/set-key "pt" 'my/open-neotree-project-root-or-current-dir)
 
@@ -254,8 +275,8 @@ current buffer directory."
     (evil-leader/set-key "wK" 'evil-window-move-far-top)
     (evil-leader/set-key "wl" 'evil-window-right)
     (evil-leader/set-key "wL" 'evil-window-move-far-right)
-    (evil-leader/set-key "wS" 'split-window-horizontally)
-    (evil-leader/set-key "wV" 'split-window-vertically)
+    (evil-leader/set-key "wV" 'split-window-horizontally)
+    (evil-leader/set-key "wS" 'split-window-vertically)
     (evil-leader/set-key "qd" 'my/restart-and-debug)
     (evil-leader/set-key "qq" 'save-buffers-kill-terminal)
     (evil-leader/set-key "qr" 'restart-emacs)
@@ -268,6 +289,7 @@ current buffer directory."
   :init
     (my/log-package-init "helm")
     (setq
+	 helm-split-window-inside-p t
      helm-mode-fuzzy-match t
      helm-completion-in-region-fuzzy-match t))
 
@@ -291,53 +313,94 @@ current buffer directory."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-quickhelp-color-background "gray22")
  '(package-selected-packages
    (quote
-    (git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+    (prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(doom-neotree-media-file-face ((t (:inherit doom-neotree-hidden-file-face :foreground "dark gray")))))
 
-;; all-the-icons
-(use-package all-the-icons)
 
-;; company
+
+(defun my/company-transformer (candidates)
+  (let ((completion-ignore-case t))
+    (all-completions (company-grab-symbol) candidates)))
+
+(defun my/company-js-hook nil
+  (make-local-variable 'company-transformers)
+  (push 'my/company-transformer company-transformers))
+
 (use-package company
-  :pin melpa
-  :demand t
-  :init
-    (my/log-package-init "company")
-    (setq company-idle-delay nil)
-  :commands (company-complete global-company-mode)
-  :config
-    (global-company-mode)
-    (evil-declare-change-repeat 'company-complete)
-  :bind (("C-<SPC>" . company-complete)))
+  :defer 2
+  :diminish
+  :hook
+	(js-mode . my/company-js-hook)
+	(after-init . global-company-mode)
+  :bind (("C-<SPC>" . company-complete))
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay nil)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers nil)
+	(company-tooltip-visible-p t)
+	(company-tooltip-align-annotations 't)
+	(company-require-match 'never)
+	(company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)))
 
+(load (concat modules-dir "vendor/font-lock+"))
 (use-package company-box
-  :after (company)
-  :commands (company-box-mode)
-  :init
-    (my/log-package-init "company-box")
-    (setq company-box-icons-unknown '(all-the-icons-faicon "question-circle"))
-    (setq company-box-icons-elisp
-	'((all-the-icons-faicon "tag") ;; Function
-	    (all-the-icons-faicon "cog") ;; Variable
-	    (all-the-icons-faicon "cube") ;; Feature
-	    ))
+	:hook (company-mode . company-box-mode)
+	:init
+	(setq company-box-icons-unknown 'fa_question_circle)
 
-    (add-hook 'prog-mode-hook 'company-box-mode))
+	(setq company-box-icons-elisp
+	'((fa_tag :face font-lock-function-name-face) ;; Function
+		(fa_cog :face font-lock-variable-name-face) ;; Variable
+		(fa_cube :face font-lock-constant-face) ;; Feature
+		(md_color_lens :face font-lock-doc-face))) ;; Face
+
+	(setq company-box-icons-yasnippet 'fa_bookmark)
+
+	(setq company-box-icons-lsp
+		'((1 . fa_text_height) ;; Text
+			(2 . (fa_tags :face font-lock-function-name-face)) ;; Method
+			(3 . (fa_tag :face font-lock-function-name-face)) ;; Function
+			(4 . (fa_tag :face font-lock-function-name-face)) ;; Constructor
+			(5 . (fa_cog :foreground "#FF9800")) ;; Field
+			(6 . (fa_cog :foreground "#FF9800")) ;; Variable
+			(7 . (fa_cube :foreground "#7C4DFF")) ;; Class
+			(8 . (fa_cube :foreground "#7C4DFF")) ;; Interface
+			(9 . (fa_cube :foreground "#7C4DFF")) ;; Module
+			(10 . (fa_cog :foreground "#FF9800")) ;; Property
+			(11 . md_settings_system_daydream) ;; Unit
+			(12 . (fa_cog :foreground "#FF9800")) ;; Value
+			(13 . (md_storage :face font-lock-type-face)) ;; Enum
+			(14 . (md_closed_caption :foreground "#009688")) ;; Keyword
+			(15 . md_closed_caption) ;; Snippet
+			(16 . (md_color_lens :face font-lock-doc-face)) ;; Color
+			(17 . fa_file_text_o) ;; File
+			(18 . md_refresh) ;; Reference
+			(19 . fa_folder_open) ;; Folder
+			(20 . (md_closed_caption :foreground "#009688")) ;; EnumMember
+			(21 . (fa_square :face font-lock-constant-face)) ;; Constant
+			(22 . (fa_cube :face font-lock-type-face)) ;; Struct
+			(23 . fa_calendar) ;; Event
+			(24 . fa_square_o) ;; Operator
+			(25 . fa_arrows)) ;; TypeParameter
+		)
+	)
 
 (use-package company-quickhelp
   :pin melpa-stable
   :after (company)
   :commands (company-quickhelp-mode)
+  :hook (company-mode . company-quickhelp-mode)
   :init
-    (my/log-package-init "company-quickhelp")
-    (add-hook 'after-init-hook 'company-quickhelp-mode))
+    (my/log-package-init "company-quickhelp"))
 
 (use-package projectile
   :pin melpa-stable
@@ -370,6 +433,7 @@ current buffer directory."
 	:init
 		(my/log-package-init "git-gutter+")
 	)
+
 (use-package git-gutter-fringe+
 	:ensure t
 	:after (git-gutter+ fringe-helper)
@@ -381,7 +445,78 @@ current buffer directory."
 		(set-face-foreground 'git-gutter+-modified "blue")
 		(set-face-foreground 'git-gutter+-added    "green")
 		(set-face-foreground 'git-gutter+-deleted  "red")
-		(fringe-helper-define 'git-gutter-fr+-added '(center repeated) "....XXXX")
+		(fringe-helper-define 'git-gutter-fr+-added '(center repeated) "XXXX....")
 
-		(fringe-helper-define 'git-gutter-fr+-deleted '(center repeated) "....XXXX")
-		(fringe-helper-define 'git-gutter-fr+-modified '(center repeated) "....XXXX"))
+		(fringe-helper-define 'git-gutter-fr+-deleted '(center repeated) "XXXX....")
+		(fringe-helper-define 'git-gutter-fr+-modified '(center repeated) "XXXX...."))
+
+(use-package add-node-modules-path
+	:defer t)
+
+(use-package flycheck
+	:pin melpa-stable
+	:hook (after-init . global-flycheck-mode)
+		  (flycheck-mode . add-node-modules-path)
+	:config
+		(setq flycheck-indication-mode 'left-fringe)
+		(fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
+			"......X...."
+			"......XX..."
+			"......XXX.."
+			"XXXXXXXXXX."
+			"XXXXXXXXXXX"
+			"XXXXXXXXXX."
+			"......XXX.."
+			"......XX..."
+			"......X...."))
+
+(use-package rainbow-delimiters
+	:pin melpa-stable
+	:hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package lsp-mode
+	:ensure t
+	:custom
+	(lsp-enable-eldoc nil)
+	(lsp-enable-indentation nil))
+
+(use-package company-lsp
+	:after (company lsp-mode)
+	:init (push 'company-lsp company-backends)
+	:custom
+		(company-lsp-async t)
+		(company-lsp-cache-candidates nil))
+
+(use-package lsp-ui
+	:hook (lsp-mode . lsp-ui-mode)
+	:after (lsp-mode)
+	:custom
+		(lsp-ui-doc-enable nil)
+		(lsp-ui-peek-enable t)
+		(lsp-ui-sideline-enable t)
+		(lsp-ui-imenu-enable nil)
+		(lsp-ui-flycheck-enable t)
+		(lsp-ui-sideline-show-hover nil))
+
+
+(use-package js2-mode
+	:init
+	(setq js2-mode-show-strict-warnings nil)
+	(setq js2-mode-show-parse-errors nil)
+	(setq js2-highlight-external-variables nil)
+	(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+
+(use-package rjsx-mode
+	:defer t)
+
+(use-package lsp-javascript-typescript
+	:hook
+	(rjsx-mode . lsp-javascript-typescript-enable)
+	(js-mode . lsp-javascript-typescript-enable))
+
+(use-package json-mode
+	:init
+	(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
+
+(use-package protobuf-mode
+	:defer t)
