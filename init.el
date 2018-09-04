@@ -160,6 +160,7 @@ current buffer directory."
 (add-hook 'text-mode-hook 'display-line-numbers-mode)
 (my/bootstrap-font)
 
+
 (use-package exec-path-from-shell
   :ensure t
   :config (my/init-exec-path))
@@ -190,7 +191,30 @@ current buffer directory."
     (setq evil-insert-state-cursor 'bar)
    :config
     (evil-mode 1)
-    ;;(evil-map visual "<" "<gv")
+
+	;; from https://emacs.stackexchange.com/questions/20151/how-to-rebind-evil-key-mappings-for-delete-and-friends
+	;; reselects visualmode selection after indent with ><
+	(define-key evil-visual-state-map ">" (lambda ()
+		(interactive)
+		; ensure mark is less than point
+		(when (> (mark) (point))
+			(exchange-point-and-mark)
+		)
+		(evil-normal-state)
+		(evil-shift-right (mark) (point))
+		(evil-visual-restore) ; re-select last visual-mode selection
+	))
+
+	(define-key evil-visual-state-map "<" (lambda ()
+		(interactive)
+		; ensure mark is less than point
+		(when (> (mark) (point))
+			(exchange-point-and-mark)
+		)
+		(evil-normal-state)
+		(evil-shift-left (mark) (point))
+		(evil-visual-restore) ; re-select last visual-mode selection
+	))
   :pin melpa-stable
   :ensure t
   :after (evil-leader))
@@ -201,6 +225,7 @@ current buffer directory."
 (use-package neotree
   :init
     (my/log-package-init "neotree")
+	(setq neotree-switch-project-action 'neotree-projectile-action)
     (setq neo-window-width 32
 	  neo-create-file-auto-open t
 	  neo-banner-message "Press ? for neotree help"
@@ -211,6 +236,7 @@ current buffer directory."
 	  neo-persist-show nil
 	  neo-auto-indent-point t
 		neo-vc-integration t
+		neo-autorefresh t
 		neo-theme 'icons
 		doom-neotree-file-icons t)
   :after (doom-themes projectile all-the-icons)
