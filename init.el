@@ -105,6 +105,8 @@ current buffer directory."
 ;;variables
 (setq my/which-key-map-prefixes '(
     ("<SPC> <SPC>" "M-x")
+    ("<SPC> a" "applications")
+    ("<SPC> ad" "dired")
     ("<SPC> b" "buffer")
     ("<SPC> bb" "buffer list")
     ("<SPC> bd" "kill buffer")
@@ -266,6 +268,9 @@ current buffer directory."
     ;; keybinds - general
     (evil-leader/set-key "<SPC>" 'helm-M-x)
 
+	;; keybinds - applications
+	(evil-leader/set-key "ad" 'dired)
+
     ;; keybings - buffer
     (evil-leader/set-key "bb" 'helm-mini)
     (evil-leader/set-key "bd" 'kill-this-buffer)
@@ -342,7 +347,7 @@ current buffer directory."
  '(company-quickhelp-color-background "gray22")
  '(package-selected-packages
    (quote
-    (prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+    (company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -546,3 +551,17 @@ current buffer directory."
 
 (use-package protobuf-mode
 	:defer t)
+
+(use-package yaml-mode
+	:init (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+
+(use-package omnisharp
+	:after(flycheck company)
+	:hook (csharp-mode . omnisharp-mode)
+	:custom (omnisharp-debug t)
+	:init (add-to-list 'company-backends #'company-omnisharp))
+
+(use-package terraform-mode)
+
+(use-package company-terraform
+	:init (company-terraform-init))
