@@ -4,7 +4,8 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq use-package-always-ensure t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")) (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
@@ -128,6 +129,7 @@ current buffer directory."
     ("<SPC> sA" "search all files")
     ("<SPC> sb" "search open buffers")
     ("<SPC> sf" "search this file")
+    ("<SPC> sh" "symbol highlight")
     ("<SPC> sp" "search current project")
     ("<SPC> w" "window")
     ("<SPC> wd" "delete window")
@@ -258,6 +260,10 @@ current buffer directory."
     (evil-define-key 'normal neotree-mode-map (kbd "?") 'my/not-implemented)
   )
 
+(defun ahs () (interactive)
+	(ahs-highlight-now)
+	(hydra-ahs-menu/body))
+
 ;; which-key
 (use-package which-key
   :pin melpa-stable
@@ -295,6 +301,7 @@ current buffer directory."
     (evil-leader/set-key "sA" 'helm-do-ag)
     (evil-leader/set-key "sb" 'helm-ag-buffers)
     (evil-leader/set-key "sf" 'helm-ag-this-file)
+    (evil-leader/set-key "sh" 'ahs)
     (evil-leader/set-key "sp" 'helm-projectile-ag)
 
     ;; keybinds - window
@@ -346,9 +353,9 @@ current buffer directory."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-quickhelp-color-background "gray22")
- '(package-selected-packages
-   (quote
-    (company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+	'(package-selected-packages
+		 (quote
+			 (hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -609,3 +616,33 @@ current buffer directory."
 
 (use-package company-terraform
 	:init (company-terraform-init))
+
+(use-package all-the-icons-dired
+	:after (all-the-icons)
+	:hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package auto-highlight-symbol
+	:ensure t
+	:custom
+		(ahs-case-fold-search t)
+	(ahs-default-range 'ahs-range-whole-buffer)
+	(ahs-idle-timer 0)
+	(ahs-idle-interval 0.25)
+	(ahs-inhibit-face-list nil)
+	(auto-highlight-symbol-mode-map (make-sparse-keymap))
+	:init (global-auto-highlight-symbol-mode))
+
+(defun my/ahs-move-forward () (interactive) (
+	(ahs-highlight-now)
+	(evil-set-jump)
+	(ahs-forward)))
+
+(use-package hydra
+	:after (auto-highlight-symbol)
+	:init
+ 	  (defhydra hydra-ahs-menu (:color blue :hint nil) "
+[_n_] next  [_N_] previous   [_e_] iedit"
+
+		  ("n" my/ahs-move-forward)
+		  ("N" my/not-implemented)
+		  ("e" my/not-implemented)))
