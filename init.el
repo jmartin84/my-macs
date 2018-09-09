@@ -113,6 +113,7 @@ current buffer directory."
     ("<SPC> bd" "kill buffer")
     ("<SPC> bm" "open message buffer")
     ("<SPC> bo" "kill other buffers")
+    ("<SPC> bs" "open scratch buffer")
     ("<SPC> bY" "yank whole buffer")
     ("<SPC> f" "files")
     ("<SPC> fe" "emacs")
@@ -283,6 +284,7 @@ current buffer directory."
     (evil-leader/set-key "bd" 'kill-this-buffer)
     (evil-leader/set-key "bm" 'my/open-messages-buffer)
     (evil-leader/set-key "bo" 'my/kill-other-buffers)
+    (evil-leader/set-key "bs" '(lambda () (interactive)(switch-to-buffer "*scratch*")))
     (evil-leader/set-key "bY" 'my/not-implemented)
 
 
