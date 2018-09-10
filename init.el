@@ -16,16 +16,16 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(defvar emacs-dir (file-truename user-emacs-directory) "Path to Emacs dir.")
+(defvar modules-dir (concat emacs-dir "modules/") "Path to modules dir.")
+
 (eval-when-compile
   (require 'use-package))
 
-;; helper functions
-(defun my/log-package-init (packageName) (message (format "Initializing package: %s" packageName)))
+(let ((default-directory  modules-dir))
+  (normal-top-level-add-subdirs-to-load-path))
 
-(defun my/not-implemented () (interactive) (message "**NOT YET IMPLEMENTED**"))
-
-(defun my/open-messages-buffer () (interactive) (switch-to-buffer "*Messages*"))
-(defun my/restart-and-debug () (interactive) (restart-emacs '("--debug-init")))
+(load (concat modules-dir "core"))
 
 (defun my/configure-flycheck-for-js () (interactive)
 	(let* ((root (locate-dominating-file
@@ -47,14 +47,11 @@
 (defun my/find-dot-file () (interactive)
        (find-file "~/.emacs.d/init.el"))
 
-(defun my/init-exec-path () ()
-    (when (memq window-system '(mac ns x))
-	(exec-path-from-shell-initialize)))
+
 
 ;; from https://github.com/jaypei/emacs-neotree/issues/149
 (defun my/open-neotree-project-root-or-current-dir ()
-  "Open NeoTree using the project root, using projectile, or the
-current buffer directory."
+  "Open NeoTree using the project root, using projectile, or the current buffer directory."
   (interactive)
   (let ((project-dir (ignore-errors (projectile-project-root)))
         (file-name (buffer-file-name))
@@ -69,42 +66,6 @@ current buffer directory."
             (neotree-find file-name))))))
 
 
-(defun my/bootstrap-font ()
-  (add-to-list 'load-path "~/.local/share/icons-in-terminal/")
-  (when (window-system)
-    (add-hook 'helm-major-mode-hook
-	    (lambda ()
-	      (setq auto-composition-mode nil)))
-    (set-default-font "Fira Code 14"))
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-                (36 . ".\\(?:>\\)")
-                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-               ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-                (48 . ".\\(?:x[a-zA-Z]\\)")
-                (58 . ".\\(?:::\\|[:=]\\)")
-                (59 . ".\\(?:;;\\|;\\)")
-                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-                (91 . ".\\(?:]\\)")
-                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-                (94 . ".\\(?:=\\)")
-                (119 . ".\\(?:ww\\)")
-                (123 . ".\\(?:-\\)")
-                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-                )
-              ))
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                            `([,(cdr char-regexp) 0 font-shape-gstring])))))
 
 ;;variables
 (setq my/which-key-map-prefixes '(
@@ -152,51 +113,20 @@ current buffer directory."
     ("<SPC> qq" "quit and save")
     ("<SPC> qr" "quit and restart")))
 
-;; general config
-;; add modules to load path
-(message "--Executing general config--")
-
-(defvar emacs-dir (file-truename user-emacs-directory) "Path to Emacs dir.")
-(defvar modules-dir (concat emacs-dir "modules/") "Path to modules dir.")
-
-(setq default-frame-alist '((ns-transparent-titlebar . t) (ns-appearance . 'nil)))
-(tool-bar-mode -1)
-(set-default 'truncate-lines t)
-(scroll-bar-mode -1)
-(setq display-line-numbers-type 'relative)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'text-mode-hook 'display-line-numbers-mode)
-(my/bootstrap-font)
 
 
-(use-package exec-path-from-shell
-  :ensure t
-  :config (my/init-exec-path))
-
-;; theme
-(use-package doom-themes
-  :init
-    (my/log-package-init "theme")
-    (setq doom-themes-enable-bold t
-	  doom-themes-enable-italic t)
-  :config
-    ;;(load-theme 'doom-city-lights t)
-    (load-theme 'doom-spacegrey t)
-    (doom-themes-visual-bell-config))
 
 
 ;; evil mode config
 (use-package evil-leader
   :ensure t
   :pin melpa-stable
-  :init (my/log-package-init "evil-leader")
   :config
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
   :init
-    (my/log-package-init "evil")
     (setq evil-insert-state-cursor 'bar)
    :config
     (evil-mode 1)
@@ -228,12 +158,9 @@ current buffer directory."
   :ensure t
   :after (evil-leader))
 
-;; all-the-icons
-(use-package all-the-icons)
 ;; neo-tree
 (use-package neotree
   :init
-    (my/log-package-init "neotree")
 	;;(setq neotree-switch-project-action 'neotree-projectile-action)
     (setq neo-window-width 32
 	  neo-create-file-auto-open nil
@@ -282,8 +209,6 @@ current buffer directory."
 ;; which-key
 (use-package which-key
   :pin melpa-stable
-  :init
-    (my/log-package-init "which-key")
   :config
     ;; set menu text
     (dolist (prefix my/which-key-map-prefixes) (apply 'which-key-add-key-based-replacements prefix))
@@ -342,7 +267,6 @@ current buffer directory."
 (use-package helm
   :pin melpa-stable
   :init
-    (my/log-package-init "helm")
     (setq
 	 helm-split-window-inside-p t
      helm-mode-fuzzy-match t
@@ -351,17 +275,12 @@ current buffer directory."
 ;; helm-ag
 (use-package helm-ag
   :pin melpa-stable
-  :requires (helm)
-  :init
-    (my/log-package-init "helm-ag"))
+  :after (helm))
 
 ;; helm-projectile
 (use-package helm-projectile
   :pin melpa-stable
-  :requires (helm)
-  :init
-    (my/log-package-init "helm-projectile")
-  )
+  :requires (helm))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -455,41 +374,26 @@ current buffer directory."
   :pin melpa-stable
   :after (company)
   :commands (company-quickhelp-mode)
-  :hook (company-mode . company-quickhelp-mode)
-  :init
-    (my/log-package-init "company-quickhelp"))
+  :hook (company-mode . company-quickhelp-mode))
 
 (use-package projectile
   :pin melpa-stable
   :commands (projectile-mode)
   :init
-  (my/log-package-init "projectile")
   (add-hook 'after-init-hook 'projectile-mode))
 ;; restart emacs
 (use-package restart-emacs :pin melpa-stable)
 
-(use-package doom-modeline
-    :ensure t
-    :init (my/log-package-init "doom-modeline")
-    :defer t
-    :hook (after-init . doom-modeline-init))
-
 (use-package evil-anzu
-  :hook (after-init . global-anzu-mode)
-  :init (my/log-package-init "evil-anzu"))
+  :hook (after-init . global-anzu-mode))
 
 (use-package editorconfig
   :ensure t
   :config
   (editorconfig-mode 1))
 
-(use-package fringe-helper :ensure t)
-
 (use-package git-gutter+
-	:hook (after-init . global-git-gutter+-mode)
-	:init
-		(my/log-package-init "git-gutter+")
-	)
+	:hook (after-init . global-git-gutter+-mode))
 
 (use-package git-gutter-fringe+
 	:ensure t
@@ -636,9 +540,6 @@ current buffer directory."
 (use-package company-terraform
 	:init (company-terraform-init))
 
-(use-package all-the-icons-dired
-	:after (all-the-icons)
-	:hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package auto-highlight-symbol
 	:ensure t
@@ -675,3 +576,9 @@ current buffer directory."
 		  ("n" my/ahs-move-forward :exit nil)
 		  ("N" my/ahs-move-backwards :exit nil)
 		  ("e" my/not-implemented)))
+
+(my/bootstrap)
+
+
+(provide 'init)
+;;; init.el ends here
