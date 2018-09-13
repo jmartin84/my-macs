@@ -1,3 +1,6 @@
+;;; init.el --- Summary
+;;; Commentary:
+;;; Code:
 (message "****Initializing Emacs****")
 ;; package config
 (message "--Configuring package management--")
@@ -663,7 +666,10 @@ current buffer directory."
 	:init
  	(defhydra hydra-ahs-menu (:color blue
 							  :hint nil
-							  :post (doom-modeline-def-segment matches (propertize "" 'face 'doom-modeline-panel))) "
+							  :timeout 5
+							:post (progn
+									(doom-modeline-def-segment matches (propertize "" 'face 'doom-modeline-panel))
+									(ahs-clear))) "
 [_n_] next  [_N_] previous   [_e_] iedit"
 
 		  ("n" my/ahs-move-forward :exit nil)
