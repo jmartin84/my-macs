@@ -231,18 +231,18 @@ current buffer directory."
 (use-package neotree
   :init
     (my/log-package-init "neotree")
-	(setq neotree-switch-project-action 'neotree-projectile-action)
+	;;(setq neotree-switch-project-action 'neotree-projectile-action)
     (setq neo-window-width 32
-	  neo-create-file-auto-open t
+	  neo-create-file-auto-open nil
 	  neo-banner-message "Press ? for neotree help"
 	  neo-show-updir-line nil
 	  neo-mode-line-type 'neotree
-	  neo-smart-open t
+	  neo-smart-open nil
 	  neo-dont-be-alone t
 	  neo-persist-show nil
 	  neo-auto-indent-point t
 		neo-vc-integration t
-		neo-autorefresh t
+		neo-autorefresh nil
 		neo-theme 'icons
 		doom-neotree-file-icons t)
   :after (doom-themes projectile all-the-icons)
@@ -263,6 +263,17 @@ current buffer directory."
 
 (defun ahs () (interactive)
 	(ahs-highlight-now)
+	(doom-modeline-def-segment matches
+		(propertize
+			(let* ((stats (cdr (ahs-stat)))
+					(total (first stats))
+					(previous-results (second stats)))
+				(format " %s/%d "
+					(if (eq 0 total)
+						0
+						(+ 1 previous-results))
+					total))
+			'face 'doom-modeline-panel))
 	(hydra-ahs-menu/body))
 
 ;; which-key
@@ -393,7 +404,9 @@ current buffer directory."
 	(company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)))
 
 (load (concat modules-dir "vendor/font-lock+"))
+
 (use-package company-box
+	:disabled t
 	:hook (company-mode . company-box-mode)
 	:init
 	(setq company-box-icons-unknown 'fa_question_circle)
@@ -501,15 +514,15 @@ current buffer directory."
 	:config
 		(setq flycheck-indication-mode 'left-fringe)
 		(fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
-			"......X...."
-			"......XX..."
-			"......XXX.."
-			"XXXXXXXXXX."
-			"XXXXXXXXXXX"
-			"XXXXXXXXXX."
-			"......XXX.."
-			"......XX..."
-			"......X...."))
+			".......X...."
+			".......XX..."
+			".......XXX.."
+			"XXXXXXXXXXX."
+			"XXXXXXXXXXXX"
+			"XXXXXXXXXXX."
+			".......XXX.."
+			".......XX..."
+			".......X...."))
 
 (use-package rainbow-delimiters
 	:pin melpa-stable
@@ -529,6 +542,7 @@ current buffer directory."
 		(company-lsp-cache-candidates nil))
 
 (use-package lsp-ui
+	:disabled t
 	:hook (lsp-mode . lsp-ui-mode)
 	:after (lsp-mode)
 	:custom
@@ -634,17 +648,24 @@ current buffer directory."
 	(auto-highlight-symbol-mode-map (make-sparse-keymap))
 	:init (global-auto-highlight-symbol-mode))
 
-(defun my/ahs-move-forward () (interactive) (
+(defun my/ahs-move-forward () (interactive)
 	(ahs-highlight-now)
 	(evil-set-jump)
-	(ahs-forward)))
+	(ahs-forward))
+
+(defun my/ahs-move-backwards () (interactive)
+	(ahs-highlight-now)
+	(evil-set-jump)
+	(ahs-backward))
 
 (use-package hydra
 	:after (auto-highlight-symbol)
 	:init
- 	  (defhydra hydra-ahs-menu (:color blue :hint nil) "
+ 	(defhydra hydra-ahs-menu (:color blue
+							  :hint nil
+							  :post (doom-modeline-def-segment matches (propertize "" 'face 'doom-modeline-panel))) "
 [_n_] next  [_N_] previous   [_e_] iedit"
 
-		  ("n" my/ahs-move-forward)
-		  ("N" my/not-implemented)
+		  ("n" my/ahs-move-forward :exit nil)
+		  ("N" my/ahs-move-backwards :exit nil)
 		  ("e" my/not-implemented)))
