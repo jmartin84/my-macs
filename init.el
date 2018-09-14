@@ -27,15 +27,13 @@
 
 (load (concat modules-dir "core"))
 
-(defun my/configure-flycheck-for-js () (interactive)
-	(let* ((root (locate-dominating-file
-				(or (buffer-file-name) default-directory)
-				"node_modules"))
-		(eslint (and root
-					(expand-file-name "node_modules/eslint/bin/eslint.js"
-										root))))
-	(when (and eslint (file-executable-p eslint))
-	(setq-local flycheck-javascript-eslint-executable eslint))))
+(defun my/log-package-init (packageName) (message (format "Initializing package: %s" packageName)))
+
+(defun my/not-implemented () (message "**NOT YET IMPLEMENTED**"))
+
+(defun my/open-messages-buffer () (interactive) (switch-to-buffer "*Messages*"))
+
+(defun my/restart-and-debug () (interactive) (restart-emacs '("--debug-init")))
 
 (defun my/kill-other-buffers ()
     "Kill all other buffers."
@@ -46,24 +44,6 @@
        (load-file "~/.emacs.d/init.el"))
 (defun my/find-dot-file () (interactive)
        (find-file "~/.emacs.d/init.el"))
-
-
-
-;; from https://github.com/jaypei/emacs-neotree/issues/149
-(defun my/open-neotree-project-root-or-current-dir ()
-  "Open NeoTree using the project root, using projectile, or the current buffer directory."
-  (interactive)
-  (let ((project-dir (ignore-errors (projectile-project-root)))
-        (file-name (buffer-file-name))
-        (neo-smart-open t))
-    (if (neo-global--window-exists-p)
-        (neotree-hide)
-      (progn
-        (neotree-show)
-        (if project-dir
-            (neotree-dir project-dir))
-        (if file-name
-            (neotree-find file-name))))))
 
 
 
@@ -114,9 +94,6 @@
     ("<SPC> qr" "quit and restart")))
 
 
-
-
-
 ;; evil mode config
 (use-package evil-leader
   :ensure t
@@ -158,54 +135,6 @@
   :ensure t
   :after (evil-leader))
 
-;; neo-tree
-(use-package neotree
-  :init
-	;;(setq neotree-switch-project-action 'neotree-projectile-action)
-    (setq neo-window-width 32
-	  neo-create-file-auto-open nil
-	  neo-banner-message "Press ? for neotree help"
-	  neo-show-updir-line nil
-	  neo-mode-line-type 'neotree
-	  neo-smart-open nil
-	  neo-dont-be-alone t
-	  neo-persist-show nil
-	  neo-auto-indent-point t
-		neo-vc-integration t
-		neo-autorefresh nil
-		neo-theme 'icons
-		doom-neotree-file-icons t)
-  :after (doom-themes projectile all-the-icons)
-  :config
-    (doom-themes-neotree-config)
-    (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-hidden-file-toggle)
-    (evil-define-key 'normal neotree-mode-map (kbd "c") 'neotree-create-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "C") 'neotree-copy-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-rename-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "d") 'neotree-delete-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "gr") 'neotree-refresh)
-    (evil-define-key 'normal neotree-mode-map (kbd "?") 'my/not-implemented)
-  )
-
-(defun ahs () (interactive)
-	(ahs-highlight-now)
-	(doom-modeline-def-segment matches
-		(propertize
-			(let* ((stats (cdr (ahs-stat)))
-					(total (first stats))
-					(previous-results (second stats)))
-				(format " %s/%d "
-					(if (eq 0 total)
-						0
-						(+ 1 previous-results))
-					total))
-			'face 'doom-modeline-panel))
-	(hydra-ahs-menu/body))
-
 ;; which-key
 (use-package which-key
   :pin melpa-stable
@@ -242,7 +171,7 @@
     (evil-leader/set-key "sA" 'helm-do-ag)
     (evil-leader/set-key "sb" 'helm-ag-buffers)
     (evil-leader/set-key "sf" 'helm-ag-this-file)
-    (evil-leader/set-key "sh" 'ahs)
+    (evil-leader/set-key "sh" 'my/ahs)
     (evil-leader/set-key "sp" 'helm-projectile-ag)
 
     ;; keybinds - window
@@ -261,26 +190,22 @@
     (evil-leader/set-key "qq" 'save-buffers-kill-terminal)
     (evil-leader/set-key "qr" 'restart-emacs)
 
+
+	;;neotree
+	(evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-hidden-file-toggle)
+    (evil-define-key 'normal neotree-mode-map (kbd "c") 'neotree-create-node)
+    (evil-define-key 'normal neotree-mode-map (kbd "C") 'neotree-copy-node)
+    (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-rename-node)
+    (evil-define-key 'normal neotree-mode-map (kbd "d") 'neotree-delete-node)
+    (evil-define-key 'normal neotree-mode-map (kbd "gr") 'neotree-refresh)
+    (evil-define-key 'normal neotree-mode-map (kbd "?") 'my/not-implemented)
+
+
     (which-key-mode))
-
-;; helm
-(use-package helm
-  :pin melpa-stable
-  :init
-    (setq
-	 helm-split-window-inside-p t
-     helm-mode-fuzzy-match t
-     helm-completion-in-region-fuzzy-match t))
-
-;; helm-ag
-(use-package helm-ag
-  :pin melpa-stable
-  :after (helm))
-
-;; helm-projectile
-(use-package helm-projectile
-  :pin melpa-stable
-  :requires (helm))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -376,16 +301,8 @@
   :commands (company-quickhelp-mode)
   :hook (company-mode . company-quickhelp-mode))
 
-(use-package projectile
-  :pin melpa-stable
-  :commands (projectile-mode)
-  :init
-  (add-hook 'after-init-hook 'projectile-mode))
 ;; restart emacs
 (use-package restart-emacs :pin melpa-stable)
-
-(use-package evil-anzu
-  :hook (after-init . global-anzu-mode))
 
 (use-package editorconfig
   :ensure t
@@ -414,22 +331,6 @@
 (use-package add-node-modules-path
 	:defer t)
 
-(use-package flycheck
-	:pin melpa-stable
-	:hook (after-init . global-flycheck-mode)
-		  (flycheck-mode . add-node-modules-path)
-	:config
-		(setq flycheck-indication-mode 'left-fringe)
-		(fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
-			".......X...."
-			".......XX..."
-			".......XXX.."
-			"XXXXXXXXXXX."
-			"XXXXXXXXXXXX"
-			"XXXXXXXXXXX."
-			".......XXX.."
-			".......XX..."
-			".......X...."))
 
 (use-package rainbow-delimiters
 	:pin melpa-stable
@@ -540,42 +441,7 @@
 (use-package company-terraform
 	:init (company-terraform-init))
 
-
-(use-package auto-highlight-symbol
-	:ensure t
-	:custom
-		(ahs-case-fold-search t)
-	(ahs-default-range 'ahs-range-whole-buffer)
-	(ahs-idle-timer 0)
-	(ahs-idle-interval 0.25)
-	(ahs-inhibit-face-list nil)
-	(auto-highlight-symbol-mode-map (make-sparse-keymap))
-	:init (global-auto-highlight-symbol-mode))
-
-(defun my/ahs-move-forward () (interactive)
-	(ahs-highlight-now)
-	(evil-set-jump)
-	(ahs-forward))
-
-(defun my/ahs-move-backwards () (interactive)
-	(ahs-highlight-now)
-	(evil-set-jump)
-	(ahs-backward))
-
-(use-package hydra
-	:after (auto-highlight-symbol)
-	:init
- 	(defhydra hydra-ahs-menu (:color blue
-							  :hint nil
-							  :timeout 5
-							:post (progn
-									(doom-modeline-def-segment matches (propertize "" 'face 'doom-modeline-panel))
-									(ahs-clear))) "
-[_n_] next  [_N_] previous   [_e_] iedit"
-
-		  ("n" my/ahs-move-forward :exit nil)
-		  ("N" my/ahs-move-backwards :exit nil)
-		  ("e" my/not-implemented)))
+(use-package hydra)
 
 (my/bootstrap)
 

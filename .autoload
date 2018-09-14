@@ -1,0 +1,20 @@
+;;; .autoload --- automatically extracted autoloads
+;;
+;;; Code:
+
+
+;;;### (autoloads nil "init" "init.el" (0 0 0 0))
+;;; Generated autoloads from init.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "init" '(#("modules-dir" 0 1 (fontified nil face font-lock-function-name-face) 1 11 (fontified t face font-lock-variable-name-face)) #("my/" 0 1 (fontified nil face font-lock-function-name-face) 1 3 (fontified nil face font-lock-function-name-face)) #("ahs" 0 3 (fontified nil)) #("emacs-dir" 0 9 (face font-lock-variable-name-face fontified t)))))
+
+;;;***
+
+(provide '.autoload)
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; no-update-autoloads: t
+;; coding: utf-8
+;; End:
+;;; .autoload ends here

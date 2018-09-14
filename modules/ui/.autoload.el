@@ -3,16 +3,6 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "core" "core.el" (0 0 0 0))
-;;; Generated autoloads from core.el
-
-(autoload 'my/bootstrap--ui "core" "\
-
-
-\(fn)" nil nil)
-
-;;;***
-
 ;;;### (autoloads nil "font" "font.el" (0 0 0 0))
 ;;; Generated autoloads from font.el
 
@@ -57,6 +47,16 @@
 ;;; Generated autoloads from theme.el
 
 (autoload 'my/bootstrap--ui-theme "theme" "\
+
+
+\(fn)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "ui" "ui.el" (0 0 0 0))
+;;; Generated autoloads from ui.el
+
+(autoload 'my/bootstrap--ui "ui" "\
 
 
 \(fn)" nil nil)

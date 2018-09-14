@@ -15,5 +15,5 @@
 	(my/bootstrap--ui-theme)
 	(my/bootstrap--ui-mode-line))
 
-(provide 'ui-core)
+(provide 'ui)
 ;;; core.el ends here
