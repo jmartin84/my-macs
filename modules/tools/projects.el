@@ -33,7 +33,7 @@
 	;; helm-projectile
 	(use-package helm-projectile
 		:pin melpa-stable
-		:requires (helm projectile))
+		:after (helm projectile))
 
 	;; neo-tree
 	(use-package neotree

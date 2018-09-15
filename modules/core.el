@@ -18,6 +18,7 @@
 	; import autoloads
 	(load (concat modules-dir "ui/.autoload"))
 	(load (concat modules-dir "tools/.autoload"))
+	(load (concat modules-dir "lang/.autoload"))
 
 	(use-package exec-path-from-shell
 		:ensure t
@@ -25,7 +26,8 @@
 
 	; bootstrap submodules
 	(my/bootstrap--ui)
-	(my/bootstrap--tools))
+	(my/bootstrap--tools)
+	(my/bootstrap--lang))
 
 
 

@@ -3,6 +3,17 @@
 ;;; Code:
 
 
+;;;### (autoloads nil "code-completion" "code-completion.el" (0 0
+;;;;;;  0 0))
+;;; Generated autoloads from code-completion.el
+
+(autoload 'my/bootstrap--tools-completion "code-completion" "\
+
+
+\(fn)" nil nil)
+
+;;;***
+
 ;;;### (autoloads nil "linter" "linter.el" (0 0 0 0))
 ;;; Generated autoloads from linter.el
 
@@ -31,10 +42,17 @@ Open NeoTree using the project root, using projectile, or the current buffer dir
 ;;;### (autoloads nil "search" "search.el" (0 0 0 0))
 ;;; Generated autoloads from search.el
 
+(autoload 'my/ahs "search" "\
+
+
+\(fn)" t nil)
+
 (autoload 'my/bootstrap--tools-search "search" "\
 
 
 \(fn)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "search" '("my/")))
 
 ;;;***
 
@@ -42,6 +60,16 @@ Open NeoTree using the project root, using projectile, or the current buffer dir
 ;;; Generated autoloads from tools.el
 
 (autoload 'my/bootstrap--tools "tools" "\
+
+
+\(fn)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "vcs" "vcs.el" (0 0 0 0))
+;;; Generated autoloads from vcs.el
+
+(autoload 'my/bootstrap--tools-vcs "vcs" "\
 
 
 \(fn)" nil nil)
