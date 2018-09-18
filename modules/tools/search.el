@@ -60,7 +60,7 @@
 		:after (helm))
 
 	(use-package auto-highlight-symbol
-		:after (hydra)
+		:ensure t
 		:custom
 			(ahs-case-fold-search t)
 			(ahs-default-range 'ahs-range-whole-buffer)
@@ -68,7 +68,10 @@
 			(ahs-idle-interval 0.25)
 			(ahs-inhibit-face-list nil)
 			(auto-highlight-symbol-mode-map (make-sparse-keymap))
-		:init (global-auto-highlight-symbol-mode)
+		:init (global-auto-highlight-symbol-mode +1)
+		:hook
+			(js2-mode . auto-highlight-symbol-mode)
+			(rjsx-mode . auto-highlight-symbol-mode)
 		:config (my/configure-ahs-hydra))
 
 

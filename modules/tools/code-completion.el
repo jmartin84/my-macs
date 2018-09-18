@@ -21,10 +21,17 @@
 			(company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)))
 
 	(use-package company-box
-		:disabled t
 		:after (company)
 		:hook (company-mode . company-box-mode)
 		:custom
+		(company-box-backends-colors
+			'((company-dabbrev-code . "yellow")
+			  (company-keywords . "red")
+			  (company-etags . "red")
+			  (company-gtags . "red")
+			  (company-tern . "light blue")
+			  (company-lsp . "green")
+				 ))
 			(company-box-icons-unknown 'fa_question_circle)
 			(company-box-icons-elisp
 				'((fa_tag :face font-lock-function-name-face) ;; Function
@@ -79,7 +86,7 @@
 		:init (push 'company-lsp company-backends)
 		:custom
 			(company-lsp-async t)
-			(company-lsp-cache-candidates nil))
+			(company-lsp-cache-candidates 'auto))
 
 	(use-package lsp-ui
 		:disabled t

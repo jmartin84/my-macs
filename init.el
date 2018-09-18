@@ -52,6 +52,7 @@
 ;;variables
 (setq my/which-key-map-prefixes '(
     ("<SPC> <SPC>" "M-x")
+    ("<SPC> ;" "toggle comment")
     ("<SPC> a" "applications")
     ("<SPC> ad" "dired")
     ("<SPC> b" "buffer")
@@ -65,6 +66,8 @@
     ("<SPC> fe" "emacs")
     ("<SPC> fed" "find dotfile")
     ("<SPC> fer" "reload dotfile")
+    ("<SPC> g" "git")
+    ("<SPC> gb" "blame")
     ("<SPC> p" "project")
     ("<SPC> pb" "buffers")
     ("<SPC> pf" "find file")
@@ -146,6 +149,7 @@
     (dolist (prefix my/which-key-map-prefixes) (apply 'which-key-add-key-based-replacements prefix))
     ;; keybinds - general
     (evil-leader/set-key "<SPC>" 'helm-M-x)
+    (evil-leader/set-key ";" 'comment-or-uncomment-region)
 
 	;; keybinds - applications
 	(evil-leader/set-key "ad" 'dired)
@@ -162,6 +166,9 @@
     ;; keybinds - file
     (evil-leader/set-key "fed" 'my/find-dot-file)
     (evil-leader/set-key "fer" 'my/reload-dot-file)
+
+	;; git
+    (evil-leader/set-key "gb" 'hydra-magit-menu/body)
 
     ;;project management
     (evil-leader/set-key "pb" 'helm-projectile-switch-to-buffer)
@@ -220,9 +227,9 @@
  '(doom-themes-enable-italic t)
  '(evil-insert-state-cursor (quote bar) t)
  '(omnisharp-debug t t)
- '(package-selected-packages
-   (quote
-    (helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+	'(package-selected-packages
+		 (quote
+			 (magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
