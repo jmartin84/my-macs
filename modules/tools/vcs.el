@@ -7,22 +7,20 @@
 								:hint nil
 							    :foreign-keys run
 								:body-pre (progn
-										 (unless (bound-and-true-p magit-blame-mode)
-											 (magit-blame)))
-								:post (progn
-										(if (bound-and-true-p magit-blame-mode)
-											(hydra-magit-menu/body)
-											(progn
-												(hydra-keyboard-quit)
-												(magit-blame-mode nil)
-												)))) "
-
-Press [_b_] again to blame further in the history, [_q_] to go up or quit."
+											(unless (bound-and-true-p magit-blame-mode)
+												(magit-blame)))) "
+Press [_b_] again to blame earlier in the history, [_f_] to blame later in the history. [_q_] to quit."
 		("b" magit-blame :exit nil)
+		("f" (progn
+				(magit-blame-quit)
+				(if (not (bound-and-true-p magit-blame-mode))
+					(magit-blame)))
+			:exit nil)
 		("q" (progn
-				 (when (bound-and-true-p magit-blame-mode)
+				 (while (bound-and-true-p magit-blame-mode)
 					 (magit-blame-quit)))
-			:exit t)))
+			:exit t)
+		))
 
 ;;;###autoload
 (defun my/bootstrap--tools-vcs ()
