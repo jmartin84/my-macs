@@ -71,14 +71,14 @@
 		)
 
 	(use-package company-quickhelp
-		:pin melpa-stable
+		:disabled t
 		:after (company)
 		:hook (company-mode . company-quickhelp-mode))
 
 
 	(use-package lsp-mode
 		:custom
-			(lsp-enable-eldoc nil)
+			(lsp-enable-eldoc t)
 			(lsp-enable-indentation nil))
 
 	(use-package company-lsp
@@ -89,11 +89,10 @@
 			(company-lsp-cache-candidates 'auto))
 
 	(use-package lsp-ui
-		:disabled t
 		:hook (lsp-mode . lsp-ui-mode)
 		:after (lsp-mode)
 		:custom
-			(lsp-ui-doc-enable nil)
+			(lsp-ui-doc-enable t)
 			(lsp-ui-peek-enable t)
 			(lsp-ui-sideline-enable t)
 			(lsp-ui-imenu-enable nil)

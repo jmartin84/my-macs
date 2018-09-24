@@ -12,6 +12,22 @@
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
+(defvar --backup-directory (concat user-emacs-directory "backups"))
+(if (not (file-exists-p --backup-directory))
+        (make-directory --backup-directory t))
+(setq backup-directory-alist `(("." . ,--backup-directory)))
+(setq make-backup-files t               ; backup of a file the first time it is saved.
+      backup-by-copying t               ; don't clobber symlinks
+      version-control t                 ; version numbers for backup files
+      delete-old-versions t             ; delete excess backup files silently
+      delete-by-moving-to-trash t
+      kept-old-versions 6               ; oldest versions to keep when a new numbered backup is made (default: 2)
+      kept-new-versions 9               ; newest versions to keep when a new numbered backup is made (default: 2)
+      auto-save-default t               ; auto-save every buffer that visits a file
+      auto-save-timeout 20              ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200            ; number of keystrokes between auto-saves (default: 300)
+      )
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -227,9 +243,9 @@
  '(doom-themes-enable-italic t)
  '(evil-insert-state-cursor (quote bar) t)
  '(omnisharp-debug t t)
-	'(package-selected-packages
-		 (quote
-			 (magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+ '(package-selected-packages
+   (quote
+    (lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -266,54 +282,7 @@
 (use-package yaml-mode
 	:init (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 
-(use-package omnisharp
-	:after(flycheck company)
-	:hook (csharp-mode . omnisharp-mode)
-	:custom (omnisharp-debug t)
-	:init (add-to-list 'company-backends #'company-omnisharp)
-		(which-key-add-major-mode-key-based-replacements 'csharp-mode
-			"<SPC> m" "dotnet"
-			"<SPC> mc" "compile project"
-			"<SPC> me" "solution errors"
-			"<SPC> mf" "find"
-			"<SPC> mfd" "definitions"
-			"<SPC> mfi" "implementations"
-			"<SPC> mfs" "symbols"
-			"<SPC> mfu" "usages"
-			"<SPC> mr" "refactor"
-			"<SPC> mrr" "rename"
-			"<SPC> ms" "server"
-			"<SPC> msc" "check status"
-			"<SPC> msi" "install"
-			"<SPC> msr" "reload solution"
-			"<SPC> mss" "start"
-			"<SPC> msS" "stop"
-			"<SPC> msv" "version info"
-			"<SPC> m=" "format"
-			"<SPC> m=f" "file"
-			"<SPC> m=r" "region"
-			)
 
-	(evil-leader/set-key-for-mode 'csharp-mode
-		"mc" 'recompile
-		"me" 'omnisharp-solution-errors
-		"mfd" 'omnisharp-go-to-definition
-		"mfi" 'omnisharp-find-implementations
-		"mfs" 'omnisharp-helm-find-symbols
-		"mfu" 'omnisharp-helm-find-usages
-
-		"mrr" 'omnisharp-rename-interactively
-
-		"msc" 'omnisharp-check-alive-status
-		"msi" 'omnisharp-install-server
-		"msr" 'omnisharp-reload-solution
-		"mss" 'omnisharp-start-omnisharp-server
-		"msS" 'omnisharp-stop-server
-
-		"m=f" 'omnisharp-code-format-file
-		"m=r" 'omnisharp-code-format-region
-		)
-	)
 
 (use-package terraform-mode)
 

@@ -9,7 +9,7 @@
 								:body-pre (progn
 											(unless (bound-and-true-p magit-blame-mode)
 												(magit-blame)))) "
-Press [_b_] again to blame earlier in the history, [_f_] to blame later in the history. [_q_] to quit."
+[_b_] view older history [_f_] view more recent history [_q_] to quit."
 		("b" magit-blame :exit nil)
 		("f" (progn
 				(magit-blame-quit)
