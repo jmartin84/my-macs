@@ -92,7 +92,7 @@
 		:hook (lsp-mode . lsp-ui-mode)
 		:after (lsp-mode)
 		:custom
-			(lsp-ui-doc-enable t)
+			(lsp-ui-doc-enable nil)
 			(lsp-ui-peek-enable t)
 			(lsp-ui-sideline-enable t)
 			(lsp-ui-imenu-enable nil)

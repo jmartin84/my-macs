@@ -84,6 +84,7 @@
     ("<SPC> fer" "reload dotfile")
     ("<SPC> g" "git")
     ("<SPC> gb" "blame")
+    ("<SPC> gs" "status")
     ("<SPC> p" "project")
     ("<SPC> pb" "buffers")
     ("<SPC> pf" "find file")
@@ -185,6 +186,7 @@
 
 	;; git
     (evil-leader/set-key "gb" 'hydra-magit-menu/body)
+    (evil-leader/set-key "gs" 'magit-status)
 
     ;;project management
     (evil-leader/set-key "pb" 'helm-projectile-switch-to-buffer)
@@ -243,9 +245,9 @@
  '(doom-themes-enable-italic t)
  '(evil-insert-state-cursor (quote bar) t)
  '(omnisharp-debug t t)
- '(package-selected-packages
-   (quote
-    (lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+	'(package-selected-packages
+		 (quote
+			 (evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
