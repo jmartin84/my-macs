@@ -48,5 +48,7 @@
 		:ensure t
 		:init (my/configure-magit-hydra))
 	)
+	(use-package evil-magit
+		:after (magit))
 (provide 'vcs)
 ;;; vcs.el ends here
