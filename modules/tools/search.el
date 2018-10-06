@@ -32,7 +32,6 @@
 (defun my/configure-ahs-hydra ()
 	(defhydra hydra-ahs-menu (:color blue
 									:hint nil
-									:timeout 5
 									:post (progn
 											(doom-modeline-def-segment matches (propertize "" 'face 'doom-modeline-panel))
 											(ahs-clear))) "
@@ -68,10 +67,9 @@
 			(ahs-idle-interval 0.25)
 			(ahs-inhibit-face-list nil)
 			(auto-highlight-symbol-mode-map (make-sparse-keymap))
-		:init (global-auto-highlight-symbol-mode +1)
 		:hook
-			(js2-mode . auto-highlight-symbol-mode)
-			(rjsx-mode . auto-highlight-symbol-mode)
+			(prog-mode . auto-highlight-symbol-mode)
+			(text-mode . auto-highlight-symbol-mode)
 		:config (my/configure-ahs-hydra))
 
 

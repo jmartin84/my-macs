@@ -158,6 +158,11 @@
 	:config
 		(evil-mode 1)
 
+(use-package evil-goggles
+	:disabled t
+	:ensure t
+	:config (evil-goggles-mode)
+	(evil-goggles-use-diff-faces))
 ;; which-key
 (use-package which-key
   :pin melpa-stable
@@ -225,6 +230,7 @@
     (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
     (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-hidden-file-toggle)
+    (evil-define-key 'normal neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle)
     (evil-define-key 'normal neotree-mode-map (kbd "c") 'neotree-create-node)
     (evil-define-key 'normal neotree-mode-map (kbd "C") 'neotree-copy-node)
     (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-rename-node)
@@ -245,9 +251,9 @@
  '(doom-themes-enable-italic t)
  '(evil-insert-state-cursor (quote bar) t)
  '(omnisharp-debug t t)
-	'(package-selected-packages
-		 (quote
-			 (evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+ '(package-selected-packages
+   (quote
+    (lsp-clients lsp dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -292,6 +298,13 @@
 	:init (company-terraform-init))
 
 (use-package hydra)
+
+(use-package dockerfile-mode
+	:init (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
+(use-package csv-mode
+	:init
+	(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode)))
 
 (my/bootstrap)
 
