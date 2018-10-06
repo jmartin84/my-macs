@@ -158,6 +158,11 @@
 	:config
 		(evil-mode 1)
 
+(use-package evil-goggles
+	:disabled t
+	:ensure t
+	:config (evil-goggles-mode)
+	(evil-goggles-use-diff-faces))
 ;; which-key
 (use-package which-key
   :pin melpa-stable
@@ -247,7 +252,7 @@
  '(omnisharp-debug t t)
 	'(package-selected-packages
 		 (quote
-			 (evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+			 (dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -292,6 +297,9 @@
 	:init (company-terraform-init))
 
 (use-package hydra)
+
+(use-package dockerfile-mode
+	:init (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 (my/bootstrap)
 

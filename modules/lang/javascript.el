@@ -90,7 +90,6 @@
 		:after (lsp-mode)
 		:hook
 			(rjsx-mode . lsp-javascript-typescript-enable)
-			(js-mode . lsp-javascript-typescript-enable)
 			(js2-mode . lsp-javascript-typescript-enable))
 
 	;; (use-package company-tern
