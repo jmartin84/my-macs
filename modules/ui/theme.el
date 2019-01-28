@@ -10,8 +10,9 @@
 		(doom-themes-enable-bold t)
 		(doom-themes-enable-italic t)
 	:config
+		(load-theme 'doom-nord t)
 		;;(load-theme 'doom-city-lights t)
-		(load-theme 'doom-spacegrey t)
+		;;(load-theme 'doom-spacegrey t)
 		(doom-themes-visual-bell-config)))
 
 (provide 'ui-theme)

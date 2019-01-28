@@ -6,16 +6,32 @@
 (defun my/bootstrap--lang-go ()
 	(message "Boostrap: lang-go")
 
-	(use-package go-mode)
+	(use-package go-mode
+		:init
+			(which-key-add-major-mode-key-based-replacements 'go-mode
+				"<SPC> mf" "find"
+				"<SPC> mfd" "definitions"
+				"<SPC> mfi" "implementations"
+				"<SPC> mfs" "symbols"
+				"<SPC> mfu" "usages"
+				"<SPC> mr" "refactor"
+				"<SPC> mrr" "rename"
+				"<SPC> m=" "format"
+				"<SPC> m=f" "file"
+				"<SPC> m=r" "region"
+				)
 
-	(use-package lsp-go
-		:after (go-mode)
-		:custom
-			(lsp-go-executable-path "/Users/justen/go/bin/go-langserver")
-			(lsp-go-gocode-completion-enabled t)
-		:hook (go-mode . lsp-go-enable)
-	    :config (add-to-list 'lsp-go-language-server-flags "-diagnostics"))
+			(evil-leader/set-key-for-mode 'go-mode
+				"mfd" 'lsp-ui-peek-find-definitions
+				"mfi" 'lsp-ui-peek-find-implementation
+				"mfs" 'lsp-ui-peek-find-workspace-symbol
+				"mfu" 'lsp-ui-peek-find-references
 
-	)
+				"mrr" 'lsp-rename
+
+				"m=f" 'lsp-format-buffer
+				"m=r" 'lsp-format-region))
+		)
+
 (provide 'go)
 ;;; go.el ends here

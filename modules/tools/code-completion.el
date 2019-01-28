@@ -30,7 +30,6 @@
 			  (company-etags . "red")
 			  (company-gtags . "red")
 			  (company-tern . "light blue")
-			  (company-lsp . "green")
 				 ))
 			(company-box-icons-unknown 'fa_question_circle)
 			(company-box-icons-elisp
@@ -77,28 +76,35 @@
 
 
 	(use-package lsp-mode
+		:ensure t
+		:commands lsp
+		:hook (prog-mode . lsp)
 		:custom
+			(lsp-response-timeout 30)
+			;; (lsp-clients-typescript-server "typescript-language-server")
+			;; (lsp-clients-typescript-server-args '("--stdio"))
+			(lsp-auto-guess-root t)
+			(lsp-enable-xref t)
 			(lsp-enable-eldoc t)
 			(lsp-enable-indentation nil))
 
 	(use-package company-lsp
-		:after (company lsp-mode)
-		:init (push 'company-lsp company-backends)
+		:commands company-lsp
 		:custom
 			(company-lsp-async t)
 			(company-lsp-cache-candidates 'auto))
 
 	(use-package lsp-ui
-		:hook (lsp-mode . lsp-ui-mode)
-		:after (lsp-mode)
+		:commands lsp-ui-mode
 		:custom
-			(lsp-ui-doc-enable nil)
+			(lsp-ui-doc-enable t)
 			(lsp-ui-peek-enable t)
-			(lsp-ui-sideline-enable t)
+			(lsp-ui-sideline-enable nil)
 			(lsp-ui-imenu-enable nil)
-			(lsp-ui-flycheck-enable t)
+			(lsp-ui-flycheck-enable nil)
 			(lsp-ui-sideline-show-hover nil))
 
 	)
+
 (provide 'code-completion)
 ;;; code-completion.el ends here

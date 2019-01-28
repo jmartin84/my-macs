@@ -79,18 +79,19 @@
 			"m=f" 'lsp-format-buffer
 			"m=r" 'lsp-format-region)	)
 
-	(use-package lsp-typescript
-		:after (lsp-mode)
-		:hook
-			(rjsx-mode . lsp-typescript-enable)
-			(js2-mode . lsp-typescript-enable))
+	;; (use-package lsp-typescript
+	;; 	:disabled t
+	;; 	:after (lsp-mode)
+	;; 	:hook
+	;; 		(rjsx-mode . lsp-typescript-enable)
+	;; 		(js2-mode . lsp-typescript-enable))
 
-	(use-package lsp-javascript-typescript
-		:disabled t
-		:after (lsp-mode)
-		:hook
-			(rjsx-mode . lsp-javascript-typescript-enable)
-			(js2-mode . lsp-javascript-typescript-enable))
+	;; (use-package lsp-javascript-typescript
+	;; 	:disabled t
+	;; 	:after (lsp-mode)
+	;; 	:hook
+	;; 		(rjsx-mode . lsp-javascript-typescript-enable)
+	;; 		(js2-mode . lsp-javascript-typescript-enable))
 
 	;; (use-package company-tern
 	;; 	:after (company)
