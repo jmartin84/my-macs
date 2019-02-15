@@ -5,6 +5,23 @@
 ;;;###autoload
 (defun my/bootstrap--ui-font ()
   (message "Bootstrap: ui-font")
+  (setq whitespace-style (quote (
+                                 face
+                                 trailing
+                                 tabs
+                                 empty
+                                 indentation
+                                 tab-mark
+                                 )))
+
+  (setq whitespace-display-mappings
+        '(
+          (face)
+          (newline)
+          (empty)
+          (tab-mark 9 [8594 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+          ))
+  (add-hook 'find-file-hook #'whitespace-mode)
   (when (window-system)
     (add-hook 'helm-major-mode-hook
 	    (lambda ()

@@ -100,6 +100,7 @@
     ("<SPC> sp" "search current project")
     ("<SPC> w" "window")
     ("<SPC> wd" "delete window")
+    ("<SPC> wD" "delete other windows")
     ("<SPC> wh" "focus window left")
     ("<SPC> wH" "move window left")
     ("<SPC> wj" "focus window below")
@@ -209,6 +210,7 @@
 
     ;; keybinds - window
     (evil-leader/set-key "wd" 'delete-window)
+    (evil-leader/set-key "wD" 'delete-other-windows)
     (evil-leader/set-key "wh" 'evil-window-left)
     (evil-leader/set-key "wH" 'evil-window-move-far-left)
     (evil-leader/set-key "wj" 'evil-window-down)
@@ -253,7 +255,7 @@
  '(omnisharp-debug t t)
  '(package-selected-packages
    (quote
-    (lsp-clients lsp dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+    (solaire-mode lsp-clients lsp dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
