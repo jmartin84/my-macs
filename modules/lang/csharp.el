@@ -9,7 +9,9 @@
 	(use-package omnisharp
 		:after(flycheck company)
 		:hook (csharp-mode . omnisharp-mode)
-		:custom (omnisharp-debug t)
+		:custom
+			(omnisharp-debug t)
+			(omnisharp-server-executable-path "/usr/local/bin/omnisharp")
 		:init (add-to-list 'company-backends #'company-omnisharp)
 			(which-key-add-major-mode-key-based-replacements 'csharp-mode
 				"<SPC> m" "dotnet"

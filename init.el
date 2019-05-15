@@ -191,7 +191,7 @@
     (evil-leader/set-key "fer" 'my/reload-dot-file)
 
 	;; git
-    (evil-leader/set-key "gb" 'hydra-magit-menu/body)
+    (evil-leader/set-key "gb" 'magit-blame);;'hydra-magit-menu/body)
     (evil-leader/set-key "gs" 'magit-status)
 
     ;;project management

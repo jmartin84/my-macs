@@ -81,8 +81,8 @@
 		:hook (prog-mode . lsp)
 		:custom
 			(lsp-response-timeout 30)
-			;; (lsp-clients-typescript-server "typescript-language-server")
-			;; (lsp-clients-typescript-server-args '("--stdio"))
+			(lsp-clients-typescript-server "typescript-language-server")
+			(lsp-clients-typescript-server-args '("--stdio"))
 			(lsp-prefer-flymake nil)
 			(lsp-auto-guess-root t)
 			(lsp-enable-xref t)

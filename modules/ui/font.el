@@ -9,8 +9,8 @@
                                  face
                                  trailing
                                  tabs
-                                 empty
-                                 indentation
+								empty
+								indention
                                  tab-mark
                                  )))
 
@@ -18,7 +18,6 @@
         '(
           (face)
           (newline)
-          (empty)
           (tab-mark 9 [8594 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
           ))
   (add-hook 'find-file-hook #'whitespace-mode)

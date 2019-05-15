@@ -29,6 +29,7 @@
 	(use-package git-gutter+
 		:hook (after-init . global-git-gutter+-mode))
 
+
 	(use-package git-gutter-fringe+
 		:after (git-gutter+ fringe-helper)
 		:init
@@ -45,8 +46,8 @@
 			(fringe-helper-define 'git-gutter-fr+-modified '(center repeated) "XXXX...."))
 
 	(use-package magit
-		:ensure t
-		:init (my/configure-magit-hydra))
+		:ensure t)
+		;;:init (my/configure-magit-hydra))
 	)
 	(use-package evil-magit
 		:after (magit))
