@@ -50,6 +50,7 @@
 	:pin melpa-stable
 	:custom
 		(helm-split-window-inside-p t)
+		(helm-ff-file-name-history-use-recentf t)
 		(helm-mode-fuzzy-match t)
 		(helm-completion-in-region-fuzzy-match t))
 

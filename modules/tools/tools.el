@@ -9,6 +9,7 @@
 	(my/bootstrap--tools-project)
 	(my/bootstrap--tools-search)
 	(my/bootstrap--tools-vcs)
+	(my/bootstrap--tools-utils)
 	(my/bootstrap--tools-completion))
 
 (provide 'tools)

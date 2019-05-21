@@ -52,7 +52,7 @@ Open NeoTree using the project root, using projectile, or the current buffer dir
 
 \(fn)" nil nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "search" '("my/")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "search" '(#("my/" 0 3 (fontified nil face font-lock-function-name-face)))))
 
 ;;;***
 
@@ -66,6 +66,16 @@ Open NeoTree using the project root, using projectile, or the current buffer dir
 
 ;;;***
 
+;;;### (autoloads nil "utils" "utils.el" (0 0 0 0))
+;;; Generated autoloads from utils.el
+
+(autoload 'my/bootstrap--tools-utils "utils" "\
+
+
+\(fn)" nil nil)
+
+;;;***
+
 ;;;### (autoloads nil "vcs" "vcs.el" (0 0 0 0))
 ;;; Generated autoloads from vcs.el
 
@@ -73,6 +83,8 @@ Open NeoTree using the project root, using projectile, or the current buffer dir
 
 
 \(fn)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vcs" '("my/configure-magit-hydra")))
 
 ;;;***
 

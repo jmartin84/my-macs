@@ -8,13 +8,13 @@
 							    :foreign-keys run
 								:body-pre (progn
 											(unless (bound-and-true-p magit-blame-mode)
-												(magit-blame)))) "
+												(magit-blame-addition)))) "
 [_b_] view older history [_f_] view more recent history [_q_] to quit."
-		("b" magit-blame :exit nil)
+		("b" magit-blame-addition :exit nil)
 		("f" (progn
 				(magit-blame-quit)
 				(if (not (bound-and-true-p magit-blame-mode))
-					(magit-blame)))
+					(magit-blame-addition)))
 			:exit nil)
 		("q" (progn
 				 (while (bound-and-true-p magit-blame-mode)
@@ -47,8 +47,8 @@
 
 	(use-package magit
 		:ensure t)
-		;;:init (my/configure-magit-hydra))
-	)
+		:init (my/configure-magit-hydra))
+
 	(use-package evil-magit
 		:after (magit))
 (provide 'vcs)

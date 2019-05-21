@@ -63,8 +63,6 @@
 (defun my/find-dot-file () (interactive)
        (find-file "~/.emacs.d/init.el"))
 
-
-
 ;;variables
 (setq my/which-key-map-prefixes '(
     ("<SPC> <SPC>" "M-x")
@@ -82,6 +80,11 @@
     ("<SPC> fe" "emacs")
     ("<SPC> fed" "find dotfile")
     ("<SPC> fer" "reload dotfile")
+    ("<SPC> e" "errors")
+    ("<SPC> el" "list errors")
+    ("<SPC> en" "next error")
+    ("<SPC> ep" "previous error")
+    ("<SPC> eV" "verify setup")
     ("<SPC> g" "git")
     ("<SPC> gb" "blame")
     ("<SPC> gs" "status")
@@ -164,6 +167,7 @@
 	:ensure t
 	:config (evil-goggles-mode)
 	(evil-goggles-use-diff-faces))
+
 ;; which-key
 (use-package which-key
   :pin melpa-stable
@@ -185,13 +189,17 @@
     (evil-leader/set-key "bs" '(lambda () (interactive)(switch-to-buffer "*scratch*")))
     (evil-leader/set-key "bY" 'my/not-implemented)
 
+    (evil-leader/set-key "el" 'flycheck-list-errors)
+    (evil-leader/set-key "en" 'flycheck-next-error)
+    (evil-leader/set-key "ep" 'flycheck-previous-error)
+    (evil-leader/set-key "eV" 'flycheck-verify-setup)
 
     ;; keybinds - file
     (evil-leader/set-key "fed" 'my/find-dot-file)
     (evil-leader/set-key "fer" 'my/reload-dot-file)
 
 	;; git
-    (evil-leader/set-key "gb" 'magit-blame);;'hydra-magit-menu/body)
+    (evil-leader/set-key "gb" 'hydra-magit-menu/body)
     (evil-leader/set-key "gs" 'magit-status)
 
     ;;project management
@@ -252,10 +260,10 @@
  '(doom-themes-enable-bold t)
  '(doom-themes-enable-italic t)
  '(evil-insert-state-cursor (quote bar) t)
- '(omnisharp-debug t t)
+ '(omnisharp-debug nil t)
  '(package-selected-packages
    (quote
-    (yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path protobuf-mode rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
+    (yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit lsp-go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -263,19 +271,7 @@
  ;; If there is more than one, they won't work right.
  '(doom-neotree-media-file-face ((t (:inherit doom-neotree-hidden-file-face :foreground "dark gray")))))
 
-
-
-
 (load (concat modules-dir "vendor/font-lock+"))
-
-
-;; restart emacs
-(use-package restart-emacs :pin melpa-stable)
-
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
 
 (use-package rainbow-delimiters
 	:pin melpa-stable
@@ -286,14 +282,8 @@
 	:init
 	(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
 
-(use-package protobuf-mode
-	:disabled
-	:defer t)
-
 (use-package yaml-mode
 	:init (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
-
-
 
 (use-package terraform-mode)
 
