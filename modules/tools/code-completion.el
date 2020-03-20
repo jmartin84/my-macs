@@ -21,56 +21,13 @@
 			(company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)))
 
 	(use-package company-box
-		:after (company)
+		:after (company all-the-icons)
 		:hook (company-mode . company-box-mode)
 		:custom
-		(company-box-backends-colors
-			'((company-dabbrev-code . "yellow")
-			  (company-keywords . "red")
-			  (company-etags . "red")
-			  (company-gtags . "red")
-			  (company-tern . "light blue")
-				 ))
-			(company-box-icons-unknown 'fa_question_circle)
-			(company-box-icons-elisp
-				'((fa_tag :face font-lock-function-name-face) ;; Function
-					(fa_cog :face font-lock-variable-name-face) ;; Variable
-					(fa_cube :face font-lock-constant-face) ;; Feature
-					(md_color_lens :face font-lock-doc-face))) ;; Face
-
-			(company-box-icons-yasnippet 'fa_bookmark)
-
-			(company-box-icons-lsp
-				'((1 . fa_text_height) ;; Text
-					(2 . (fa_tags :face font-lock-function-name-face)) ;; Method
-					(3 . (fa_tag :face font-lock-function-name-face)) ;; Function
-					(4 . (fa_tag :face font-lock-function-name-face)) ;; Constructor
-					(5 . (fa_cog :foreground "#FF9800")) ;; Field
-					(6 . (fa_cog :foreground "#FF9800")) ;; Variable
-					(7 . (fa_cube :foreground "#7C4DFF")) ;; Class
-					(8 . (fa_cube :foreground "#7C4DFF")) ;; Interface
-					(9 . (fa_cube :foreground "#7C4DFF")) ;; Module
-					(10 . (fa_cog :foreground "#FF9800")) ;; Property
-					(11 . md_settings_system_daydream) ;; Unit
-					(12 . (fa_cog :foreground "#FF9800")) ;; Value
-					(13 . (md_storage :face font-lock-type-face)) ;; Enum
-					(14 . (md_closed_caption :foreground "#009688")) ;; Keyword
-					(15 . md_closed_caption) ;; Snippet
-					(16 . (md_color_lens :face font-lock-doc-face)) ;; Color
-					(17 . fa_file_text_o) ;; File
-					(18 . md_refresh) ;; Reference
-					(19 . fa_folder_open) ;; Folder
-					(20 . (md_closed_caption :foreground "#009688")) ;; EnumMember
-					(21 . (fa_square :face font-lock-constant-face)) ;; Constant
-					(22 . (fa_cube :face font-lock-type-face)) ;; Struct
-					(23 . fa_calendar) ;; Event
-					(24 . fa_square_o) ;; Operator
-					(25 . fa_arrows)) ;; TypeParameter
-				)
-		)
+			(company-box-doc t)
+			(company-box-icons-alist 'company-box-icons-all-the-icons))
 
 	(use-package company-quickhelp
-		:disabled t
 		:after (company)
 		:hook (company-mode . company-quickhelp-mode))
 
@@ -83,11 +40,14 @@
 			(lsp-response-timeout 30)
 			(lsp-clients-typescript-server "typescript-language-server")
 			(lsp-clients-typescript-server-args '("--stdio"))
-			(lsp-prefer-flymake nil)
+			(lsp-prefer-flymake :none)
 			(lsp-auto-guess-root t)
 			(lsp-enable-xref t)
 			(lsp-enable-eldoc t)
+			(lsp-ui-flycheck-enable nil)
 			(lsp-enable-indentation nil))
+
+	(use-package lsp-java)
 
 	(use-package company-lsp
 		:commands company-lsp

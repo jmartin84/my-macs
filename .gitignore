@@ -1,8 +1,10 @@
 elpa/
 .cache/
+.dap-breakpoints
 auto-save-list/
 url/
 projectile-bookmarks.eld
 recentf
 projectile.cache
 .lsp-session-v1
+.extension

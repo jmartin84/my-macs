@@ -37,7 +37,6 @@
 
 	;; neo-tree
 	(use-package neotree
-		:after (doom-themes)
 		:custom
 			;;(setq neotree-switch-project-action 'neotree-projectile-action)
 			(neo-window-width 32)
@@ -51,13 +50,8 @@
 			(neo-auto-indent-point t)
 			(neo-vc-integration t)
 			(neo-autorefresh nil)
-			(neo-theme 'icons)
-			(doom-neotree-file-icons t)
-		:after (evil doom-themes projectile all-the-icons)
-		:config
-			(doom-themes-neotree-config)
-		))
-
+			(neo-theme 'icon)
+		:after (evil projectile)))
 (provide 'projects)
 
 ;;; projects.el ends here

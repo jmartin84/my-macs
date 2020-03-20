@@ -1,4 +1,3 @@
-
 ;;; package --- Summary:
 ;;; Commentary:
 ;;; Code:
@@ -21,6 +20,17 @@
 			"<SPC> m=f" "file"
 			"<SPC> m=r" "region"
 			)
+
+		(use-package flycheck-dialyxir
+			:after (flycheck)
+			:init
+			(flycheck-dialyxir-setup))
+
+		(use-package flycheck-credo
+			:after (flycheck)
+			:init
+			(flycheck-credo-setup)
+			(add-hook 'elixir-mode-hook 'flycheck-mode))
 
 	(evil-leader/set-key-for-mode 'elixir-mode
 		"mfd" 'lsp-ui-peek-find-definitions

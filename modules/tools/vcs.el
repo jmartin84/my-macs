@@ -8,7 +8,7 @@
 							    :foreign-keys run
 								:body-pre (progn
 											(unless (bound-and-true-p magit-blame-mode)
-												(magit-blame-addition)))) "
+												(magit-blame-addition nil)))) "
 [_b_] view older history [_f_] view more recent history [_q_] to quit."
 		("b" magit-blame-addition :exit nil)
 		("f" (progn
