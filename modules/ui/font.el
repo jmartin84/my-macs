@@ -4,27 +4,39 @@
 
 ;;;###autoload
 (defun my/bootstrap--ui-font ()
-  (message "Bootstrap: ui-font")
-  (setq whitespace-style (quote (
-								 face
-								 trailing
-								 tabs
-								empty
-								indention
-								 tab-mark
-								 )))
+	(message "Bootstrap: ui-font")
+	(setq whitespace-style
+		(quote (face
+				trailing
+				tabs
+				empty
+				indention
+				spaces
+				space-mark
+				space-after-tab
+				space-before-tab
+				tab-mark)))
+
+	(setq whitespace-space-regexp "\\(^ +\\)")
+	(setq whitespace-hspace-regexp "\\(^\xA0+\\)")
+
+	(setq whitespace-display-mappings
+		'((face)
+			(space-mark 32 [183] [46])
+			(tab-mark 9 [8594 9] [92 9])))
+    (defun test ())
 	(defun remove-dos-eol ()
 		"Do not show ^M in files containing mixed UNIX and DOS line endings."
 		(interactive)
 		(setq buffer-display-table (make-display-table))
 		(aset buffer-display-table ?\^M []))
 
-  (setq whitespace-display-mappings
+	(setq whitespace-display-mappings
 		'(
-		  (face)
-		  (newline)
-		  (tab-mark 9 [8594 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
-		  ))
+			(face)
+			(space-mark 32 [183] [46]) ; middle-dot
+			(tab-mark 9 [8594 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+		))
 	(add-hook 'find-file-hook #'whitespace-mode)
 
 	(defun remove-dos-eol ()
@@ -32,14 +44,22 @@
 		(interactive)
 		(setq buffer-display-table (make-display-table))
 		(aset buffer-display-table ?\^M []))
-  (add-hook 'prog-mode-hook #'remove-dos-eol)
-  (add-hook 'text-mode-hook #'remove-dos-eol)
 
-  (when (window-system)
-	(add-hook 'helm-major-mode-hook
-		(lambda ()
-		  (setq auto-composition-mode nil)))
-	(set-default-font "Fira Code 14"))
+	(add-hook 'prog-mode-hook #'remove-dos-eol)
+	(add-hook 'text-mode-hook #'remove-dos-eol)
+
+	(when (window-system)
+		(add-hook 'helm-major-mode-hook
+			(lambda ()
+			(setq auto-composition-mode nil)))
+
+		;; Set default font
+		(set-face-attribute 'default nil
+							:family "Fira Code"
+							:height 135
+							:weight 'normal
+							:width 'normal))
+
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
 				(35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
 				(36 . ".\\(?:>\\)")
@@ -67,8 +87,8 @@
 				)
 			  ))
 	(dolist (char-regexp alist)
-	  (set-char-table-range composition-function-table (car char-regexp)
-		  `([,(cdr char-regexp) 0 font-shape-gstring])))))
+		(set-char-table-range composition-function-table (car char-regexp)
+			`([,(cdr char-regexp) 0 font-shape-gstring])))))
 
 (provide 'ui-font)
 ;;; font.el ends here

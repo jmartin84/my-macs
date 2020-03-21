@@ -67,6 +67,12 @@
 
 	(use-package yasnippet
 		:init (yas-global-mode 1))
+
+	(setq gc-cons-threshold 100000000)
+	(functionp 'json-serialize)
+	(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;; (setq lsp-prefer-capf t)
+
 	)
 
 (provide 'code-completion)
