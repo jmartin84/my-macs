@@ -41,13 +41,19 @@
 			(lsp-clients-typescript-server "typescript-language-server")
 			(lsp-clients-typescript-server-args '("--stdio"))
 			(lsp-prefer-flymake :none)
+			(lsp-diagnostic-package :none)
 			(lsp-auto-guess-root t)
 			(lsp-enable-xref t)
 			(lsp-enable-eldoc t)
-			(lsp-ui-flycheck-enable nil)
+			(lsp-flycheck-enable nil)
 			(lsp-enable-indentation nil))
 
-	(use-package lsp-java)
+	(use-package lsp-treemacs
+		:commands lsp-treemacs-errors-list
+		:after (lsp-mode))
+
+	(use-package dap-mode
+		:after (lsp-mode))
 
 	(use-package company-lsp
 		:commands company-lsp
@@ -64,6 +70,11 @@
 			(lsp-ui-imenu-enable nil)
 			(lsp-ui-flycheck-enable nil)
 			(lsp-ui-sideline-show-hover nil))
+
+	(setq lsp-eslint-server-command
+	'("node"
+		"/Users/justen/code/opensource/vscode-eslint/server/out/eslintServer.js"
+		"--stdio"))
 
 	(use-package yasnippet
 		:init (yas-global-mode 1))

@@ -13,6 +13,7 @@
 		:ensure t
 		:config
 		(editorconfig-mode 1))
+
 	)
 
 (provide 'utils)

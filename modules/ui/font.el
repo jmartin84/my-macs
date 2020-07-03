@@ -12,9 +12,9 @@
 				empty
 				indention
 				spaces
-				space-mark
-				space-after-tab
-				space-before-tab
+	;;			space-mark
+	;;			space-after-tab
+	;;			space-before-tab
 				tab-mark)))
 
 	(setq whitespace-space-regexp "\\(^ +\\)")
@@ -24,7 +24,18 @@
 		'((face)
 			(space-mark 32 [183] [46])
 			(tab-mark 9 [8594 9] [92 9])))
-    (defun test ())
+
+
+
+
+
+    (defun      test ())
+
+
+
+
+
+
 	(defun remove-dos-eol ()
 		"Do not show ^M in files containing mixed UNIX and DOS line endings."
 		(interactive)

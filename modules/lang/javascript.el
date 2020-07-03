@@ -19,6 +19,9 @@
 	(use-package add-node-modules-path
 		:hook (js2-mode . add-node-modules-path))
 
+	(use-package add-node-modules-path
+		:hook (js-mode . add-node-modules-path))
+
 	(use-package typescript-mode
 		:init
 			(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
@@ -94,6 +97,8 @@
 						nil
 						t)))
 
+		(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
+
 		(which-key-add-major-mode-key-based-replacements 'rjsx-mode
 				"<SPC> mf" "find"
 				"<SPC> mfd" "definitions"
@@ -116,7 +121,7 @@
 			"mrr" 'lsp-rename
 
 			"m=f" 'lsp-format-buffer
-			"m=r" 'lsp-format-region)	)
+			"m=r" 'lsp-format-region))
 
 	;; (use-package lsp-typescript
 	;; 	:disabled t
