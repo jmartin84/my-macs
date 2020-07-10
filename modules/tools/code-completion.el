@@ -28,6 +28,7 @@
 			(company-box-icons-alist 'company-box-icons-all-the-icons))
 
 	(use-package company-quickhelp
+		:disabled t
 		:after (company)
 		:hook (company-mode . company-quickhelp-mode))
 
@@ -46,7 +47,8 @@
 			(lsp-enable-xref t)
 			(lsp-enable-eldoc t)
 			(lsp-flycheck-enable nil)
-			(lsp-enable-indentation nil))
+			(lsp-prefer-capf t)
+		(lsp-enable-indentation nil))
 
 	(use-package lsp-treemacs
 		:commands lsp-treemacs-errors-list
@@ -56,6 +58,7 @@
 		:after (lsp-mode))
 
 	(use-package company-lsp
+		:disabled t
 		:commands company-lsp
 		:custom
 			(company-lsp-async t)

@@ -4,7 +4,21 @@
 
 ;;;###autoload
 (defun my/bootstrap--ui-theme ()
-	(message "Boostrap: ui-theme")
+  (message "Boostrap: ui-theme")
+
+	(use-package page-break-lines)
+
+
+	(use-package dashboard
+		:ensure t
+		:config
+		(dashboard-setup-startup-hook)
+
+		(setq dashboard-items '((recents  . 5)
+			(projects . 5)
+			(agenda . 5)
+			(registers . 5))))
+
   (use-package doom-themes
 	:after (all-the-icons neotree)
 	:custom

@@ -22,9 +22,59 @@
 	(use-package add-node-modules-path
 		:hook (js-mode . add-node-modules-path))
 
+
+	(which-key-add-major-mode-key-based-replacements 'js-mode
+		"<SPC> mf" "find"
+		"<SPC> mfd" "definitions"
+		"<SPC> mfi" "implementations"
+		"<SPC> mfs" "symbols"
+		"<SPC> mfu" "usages"
+		"<SPC> mr" "refactor"
+		"<SPC> mra" "code action"
+		"<SPC> mrr" "rename"
+		"<SPC> m=" "format"
+		"<SPC> m=f" "file"
+		"<SPC> m=r" "region"
+		)
+
+	(evil-leader/set-key-for-mode 'js-mode
+		"mfd" 'lsp-ui-peek-find-definitions
+		"mfi" 'lsp-ui-peek-find-implementation
+		"mfs" 'lsp-ui-peek-find-workspace-symbol
+		"mfu" 'lsp-ui-peek-find-references
+		"mrr" 'lsp-rename
+		"mra" 'lsp-execute-code-action
+		"m=f" 'lsp-format-buffer
+		"m=r" 'lsp-format-region)
+
+	(which-key-add-major-mode-key-based-replacements 'js-jsx-mode
+		"<SPC> mf" "find"
+		"<SPC> mfd" "definitions"
+		"<SPC> mfi" "implementations"
+		"<SPC> mfs" "symbols"
+		"<SPC> mfu" "usages"
+		"<SPC> mr" "refactor"
+		"<SPC> mra" "code action"
+		"<SPC> mrr" "rename"
+		"<SPC> m=" "format"
+		"<SPC> m=f" "file"
+		"<SPC> m=r" "region"
+		)
+
+	(evil-leader/set-key-for-mode 'js-jsx-mode
+		"mfd" 'lsp-ui-peek-find-definitions
+		"mfi" 'lsp-ui-peek-find-implementation
+		"mfs" 'lsp-ui-peek-find-workspace-symbol
+		"mfu" 'lsp-ui-peek-find-references
+		"mrr" 'lsp-rename
+		"mra" 'lsp-execute-code-action
+		"m=f" 'lsp-format-buffer
+		"m=r" 'lsp-format-region)
+
 	(use-package typescript-mode
 		:init
 			(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+			(add-to-list 'auto-mode-alist '("\\.tsx\\'" . js-jsx-mode))
 			(which-key-add-major-mode-key-based-replacements 'typescript-mode
 				"<SPC> mf" "find"
 				"<SPC> mfd" "definitions"
@@ -32,6 +82,7 @@
 				"<SPC> mfs" "symbols"
 				"<SPC> mfu" "usages"
 				"<SPC> mr" "refactor"
+				"<SPC> mra" "code action"
 				"<SPC> mrr" "rename"
 				"<SPC> m=" "format"
 				"<SPC> m=f" "file"
@@ -44,6 +95,7 @@
 				"mfs" 'lsp-ui-peek-find-workspace-symbol
 				"mfu" 'lsp-ui-peek-find-references
 				"mrr" 'lsp-rename
+				"mra" 'lsp-execute-code-action
 				"m=f" 'lsp-format-buffer
 				"m=r" 'lsp-format-region))
 
@@ -66,6 +118,7 @@
 			"<SPC> mfs" "symbols"
 			"<SPC> mfu" "usages"
 			"<SPC> mr" "refactor"
+			"<SPC> mra" "code action"
 			"<SPC> mrr" "rename"
 			"<SPC> m=" "format"
 			"<SPC> m=f" "file"
@@ -77,73 +130,11 @@
 		"mfi" 'lsp-ui-peek-find-implementation
 		"mfs" 'lsp-ui-peek-find-workspace-symbol
 		"mfu" 'lsp-ui-peek-find-references
-
 		"mrr" 'lsp-rename
-
+		"mra" 'lsp-execute-code-action
 		"m=f" 'lsp-format-buffer
 		"m=r" 'lsp-format-region))
 
-	(use-package rjsx-mode
-		:after (js2-mode)
-		:init
-		(add-hook 'rjsx-mode-hook
-			(lambda ()
-				(add-hook 'before-save-hook
-						(lambda ()
-							(if indent-tabs-mode
-								(tabify (point-min) (point-max))
-							(untabify (point-min) (point-max))
-							))
-						nil
-						t)))
-
-		(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
-
-		(which-key-add-major-mode-key-based-replacements 'rjsx-mode
-				"<SPC> mf" "find"
-				"<SPC> mfd" "definitions"
-				"<SPC> mfi" "implementations"
-				"<SPC> mfs" "symbols"
-				"<SPC> mfu" "usages"
-				"<SPC> mr" "refactor"
-				"<SPC> mrr" "rename"
-				"<SPC> m=" "format"
-				"<SPC> m=f" "file"
-				"<SPC> m=r" "region"
-				)
-
-		(evil-leader/set-key-for-mode 'rjsx-mode
-			"mfd" 'lsp-ui-peek-find-definitions
-			"mfi" 'lsp-ui-peek-find-implementation
-			"mfs" 'lsp-ui-peek-find-workspace-symbol
-			"mfu" 'lsp-ui-peek-find-references
-
-			"mrr" 'lsp-rename
-
-			"m=f" 'lsp-format-buffer
-			"m=r" 'lsp-format-region))
-
-	;; (use-package lsp-typescript
-	;; 	:disabled t
-	;; 	:after (lsp-mode)
-	;; 	:hook
-	;; 		(rjsx-mode . lsp-typescript-enable)
-	;; 		(js2-mode . lsp-typescript-enable))
-
-	;; (use-package lsp-javascript-typescript
-	;; 	:disabled t
-	;; 	:after (lsp-mode)
-	;; 	:hook
-	;; 		(rjsx-mode . lsp-javascript-typescript-enable)
-	;; 		(js2-mode . lsp-javascript-typescript-enable))
-
-	;; (use-package company-tern
-	;; 	:after (company)
-	;; 	:init (add-to-list 'company-backends 'company-tern)
-	;; 	:hook
-	;; 		(rjsx-mode . tern-mode)
-	;; 		(js-mode . tern-mode)
-	;; 		(js2-mode . tern-mode))
 
 	)
 (provide 'javascript)

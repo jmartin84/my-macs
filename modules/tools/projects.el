@@ -27,6 +27,7 @@
 
 	;;projectile
 	(use-package projectile
+		:ensure t
 		:pin melpa-stable
 		:hook (after-init . projectile-mode))
 

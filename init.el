@@ -283,7 +283,7 @@
      (company-gtags . "red")
      (company-tern . "light blue")) t)
  '(company-box-doc t t)
- '(company-box-icons-alist 'company-box-icons-all-the-icons t)
+ '(company-box-icons-alist 'company-box-icons-all-the-icons)
  '(company-box-icons-elisp
    '((fa_tag :face font-lock-function-name-face)
      (fa_cog :face font-lock-variable-name-face)
@@ -333,7 +333,7 @@
  '(doom-themes-neotree-file-icons t)
  '(evil-insert-state-cursor 'bar t)
  '(helm-completion-in-region-fuzzy-match t t)
- '(helm-ff-file-name-history-use-recentf t t)
+ '(helm-ff-file-name-history-use-recentf t)
  '(helm-mode-fuzzy-match t t)
  '(helm-split-window-inside-p t)
  '(js2-highlight-external-variables nil)

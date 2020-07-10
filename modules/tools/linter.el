@@ -13,6 +13,7 @@
 			(flycheck-mode . add-node-modules-path)
 		:config
 			(setq flycheck-indication-mode 'left-fringe)
+			(flycheck-add-mode 'javascript-eslint 'typescript-mode)
 			(fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
 				".......X...."
 				".......XX..."
