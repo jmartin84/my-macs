@@ -15,6 +15,8 @@
 				"<SPC> mfs" "symbols"
 				"<SPC> mfu" "usages"
 				"<SPC> mr" "refactor"
+				"<SPC> mra" "code action"
+
 				"<SPC> mrr" "rename"
 				"<SPC> m=" "format"
 				"<SPC> m=f" "file"
@@ -27,6 +29,7 @@
 				"mfs" 'lsp-ui-peek-find-workspace-symbol
 				"mfu" 'lsp-ui-peek-find-references
 
+				"mra" 'lsp-execute-code-action
 				"mrr" 'lsp-rename
 
 				"m=f" 'lsp-format-buffer

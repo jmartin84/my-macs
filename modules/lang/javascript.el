@@ -12,15 +12,27 @@
   (make-local-variable 'company-transformers)
   (push 'my/company-transformer company-transformers))
 
+(defun setup-tide-mode ()
+	(interactive)
+	(message "starting tide")
+	(tide-setup)
+	(flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
+	)
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode flycheck)
+  :hook (typescript-mode . setup-tide-mode)
+    (js-jsx-mode . setup-tide-mode)
+	)
+
 ;;;###autoload
 (defun my/bootstrap--lang-javascript ()
 	(message "Boostrap: lang-javascript")
 
 	(use-package add-node-modules-path
-		:hook (js2-mode . add-node-modules-path))
-
-	(use-package add-node-modules-path
-		:hook (js-mode . add-node-modules-path))
+		:hook (js-mode . add-node-modules-path)
+		      (js2-mode . add-node-modules-path))
 
 
 	(which-key-add-major-mode-key-based-replacements 'js-mode
@@ -74,7 +86,7 @@
 	(use-package typescript-mode
 		:init
 			(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-			(add-to-list 'auto-mode-alist '("\\.tsx\\'" . js-jsx-mode))
+			(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
 			(which-key-add-major-mode-key-based-replacements 'typescript-mode
 				"<SPC> mf" "find"
 				"<SPC> mfd" "definitions"
@@ -135,6 +147,11 @@
 		"m=f" 'lsp-format-buffer
 		"m=r" 'lsp-format-region))
 
+	(use-package prettier-js
+		:hook (js2-mode . prettier-js-mode)
+			  (js-jsx-mode . prettier-js-mode)
+			  (typescript-mode . prettier-js-mode)
+			  (js-mode . prettier-js-mode))
 
 	)
 (provide 'javascript)

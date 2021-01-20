@@ -1,2 +1,3 @@
 ((magit-blame
-  ("-w")))
+  ("-w"))
+ (magit-merge nil))

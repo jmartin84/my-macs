@@ -12,8 +12,8 @@
 		:bind (("C-<SPC>" . company-complete))
 		:custom
 			(company-begin-commands '(self-insert-command))
-			(company-idle-delay nil)
-			(company-minimum-prefix-length 2)
+			(company-idle-delay 0.0)
+			(company-minimum-prefix-length 1)
 			(company-show-numbers nil)
 			(company-tooltip-visible-p t)
 			(company-tooltip-align-annotations 't)
@@ -27,28 +27,30 @@
 			(company-box-doc t)
 			(company-box-icons-alist 'company-box-icons-all-the-icons))
 
-	(use-package company-quickhelp
-		:disabled t
-		:after (company)
-		:hook (company-mode . company-quickhelp-mode))
-
 
 	(use-package lsp-mode
 		:ensure t
 		:commands lsp
 		:hook (prog-mode . lsp)
+			  (js2-mode . lsp-headerline-breadcrumb-mode)
+			  (js-jsx-mode . lsp-headerline-breadcrumb-mode)
+			  (typescript-mode . lsp-headerline-breadcrumb-mode)
 		:custom
+			(lsp-modeline-code-actions-segments `(count icon name))
 			(lsp-response-timeout 30)
-			(lsp-clients-typescript-server "typescript-language-server")
-			(lsp-clients-typescript-server-args '("--stdio"))
-			(lsp-prefer-flymake :none)
-			(lsp-diagnostic-package :none)
+;;			(lsp-clients-typescript-server "typescript-language-server")
+	;;		(lsp-clients-typescript-server-args '("--stdio"))
+			;;(lsp-prefer-flymake :none)
+			(lsp-clients-elixir-server-executable "~/code/elixir/elixir-ls/language_server.sh")
+			(lsp-diagnostics-provider :flycheck)
 			(lsp-auto-guess-root t)
 			(lsp-enable-xref t)
 			(lsp-enable-eldoc t)
-			(lsp-flycheck-enable nil)
+			;;(lsp-flycheck-enable t)
+			(lsp-hover t)
 			(lsp-prefer-capf t)
-		(lsp-enable-indentation nil))
+		(lsp-enable-indentation nil)
+		)
 
 	(use-package lsp-treemacs
 		:commands lsp-treemacs-errors-list
@@ -71,7 +73,7 @@
 			(lsp-ui-peek-enable t)
 			(lsp-ui-sideline-enable nil)
 			(lsp-ui-imenu-enable nil)
-			(lsp-ui-flycheck-enable nil)
+			;;(lsp-ui-flycheck-enable t)
 			(lsp-ui-sideline-show-hover nil))
 
 	(setq lsp-eslint-server-command
