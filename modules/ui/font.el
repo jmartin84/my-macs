@@ -26,16 +26,6 @@
 			(tab-mark 9 [8594 9] [92 9])))
 
 
-
-
-
-    (defun      test ())
-
-
-
-
-
-
 	(defun remove-dos-eol ()
 		"Do not show ^M in files containing mixed UNIX and DOS line endings."
 		(interactive)
@@ -99,7 +89,9 @@
 			  ))
 	(dolist (char-regexp alist)
 		(set-char-table-range composition-function-table (car char-regexp)
-			`([,(cdr char-regexp) 0 font-shape-gstring])))))
+				`([,(cdr char-regexp) 0 font-shape-gstring]))))
+
+)
 
 (provide 'ui-font)
 ;;; font.el ends here

@@ -28,6 +28,7 @@
 	:config
 		;;(load-theme 'doom-nord t)
 		;;(load-theme 'doom-city-lights t)
+		;;(load-theme 'doom-dark+)
 		(load-theme 'doom-vibrant t)
 		;; (load-theme 'doom-spacegrey t)
 		;; (load-theme 'doom-one t)
@@ -36,10 +37,10 @@
 	  (doom-themes-visual-bell-config))
 
 	(use-package solaire-mode
-		:hook ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-		:config
-		(add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
-		(solaire-mode-swap-bg)))
+		:hook (doom-load-theme . solaire-global-mode)
+			(which-key-init-buffer . solaire-mode)
+	)
+  )
 
 (provide 'ui-theme)
 ;;; theme.el ends here

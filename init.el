@@ -132,11 +132,13 @@
 
 (use-package evil
   :ensure t
+	:init
+	(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+    (setq evil-want-keybinding nil)
   :custom
     (evil-insert-state-cursor 'bar)
-	(evil-undo-system 'undo-tree)
+	(evil-undo-system 'undo-fu)
   :config
-	(global-undo-tree-mode)
 	;; from https://emacs.stackexchange.com/questions/20151/how-to-rebind-evil-key-mappings-for-delete-and-friends
 	;; reselects visualmode selection after indent with ><
 	(define-key evil-visual-state-map ">" (lambda ()
@@ -160,7 +162,19 @@
 		(evil-shift-left (mark) (point))
 		(evil-visual-restore) ; re-select last visual-mode selection
 	))
-  :pin melpa-stable)
+	)
+
+(use-package undo-fu
+  :config
+  (global-unset-key (kbd "C-z"))
+(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+(define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
 
 
 ;; evil mode config
@@ -273,107 +287,59 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ahs-case-fold-search t)
- '(ahs-default-range 'ahs-range-whole-buffer)
- '(ahs-idle-interval 0.25)
- '(ahs-idle-timer 0 t)
- '(ahs-inhibit-face-list nil)
- '(auto-highlight-symbol-mode-map '(keymap) t)
- '(company-begin-commands '(self-insert-command))
- '(company-box-backends-colors
-   '((company-dabbrev-code . "yellow")
-     (company-keywords . "red")
-     (company-etags . "red")
-     (company-gtags . "red")
-     (company-tern . "light blue")) t)
- '(company-box-doc t t)
- '(company-box-icons-alist 'company-box-icons-all-the-icons t)
- '(company-box-icons-elisp
-   '((fa_tag :face font-lock-function-name-face)
-     (fa_cog :face font-lock-variable-name-face)
-     (fa_cube :face font-lock-constant-face)
-     (md_color_lens :face font-lock-doc-face)) t)
- '(company-box-icons-lsp
-   '((1 . fa_text_height)
-     (2 fa_tags :face font-lock-function-name-face)
-     (3 fa_tag :face font-lock-function-name-face)
-     (4 fa_tag :face font-lock-function-name-face)
-     (5 fa_cog :foreground "#FF9800")
-     (6 fa_cog :foreground "#FF9800")
-     (7 fa_cube :foreground "#7C4DFF")
-     (8 fa_cube :foreground "#7C4DFF")
-     (9 fa_cube :foreground "#7C4DFF")
-     (10 fa_cog :foreground "#FF9800")
-     (11 . md_settings_system_daydream)
-     (12 fa_cog :foreground "#FF9800")
-     (13 md_storage :face font-lock-type-face)
-     (14 md_closed_caption :foreground "#009688")
-     (15 . md_closed_caption)
-     (16 md_color_lens :face font-lock-doc-face)
-     (17 . fa_file_text_o)
-     (18 . md_refresh)
-     (19 . fa_folder_open)
-     (20 md_closed_caption :foreground "#009688")
-     (21 fa_square :face font-lock-constant-face)
-     (22 fa_cube :face font-lock-type-face)
-     (23 . fa_calendar)
-     (24 . fa_square_o)
-     (25 . fa_arrows)) t)
+	'(company-box-backends-colors
+		 '((company-dabbrev-code . "yellow")
+			  (company-keywords . "red")
+			  (company-etags . "red")
+			  (company-gtags . "red")
+			  (company-tern . "light blue")) t)
+	'(company-box-icons-elisp
+		 '((fa_tag :face font-lock-function-name-face)
+			  (fa_cog :face font-lock-variable-name-face)
+			  (fa_cube :face font-lock-constant-face)
+			  (md_color_lens :face font-lock-doc-face)) t)
+	'(company-box-icons-lsp
+		 '((1 . fa_text_height)
+			  (2 fa_tags :face font-lock-function-name-face)
+			  (3 fa_tag :face font-lock-function-name-face)
+			  (4 fa_tag :face font-lock-function-name-face)
+			  (5 fa_cog :foreground "#FF9800")
+			  (6 fa_cog :foreground "#FF9800")
+			  (7 fa_cube :foreground "#7C4DFF")
+			  (8 fa_cube :foreground "#7C4DFF")
+			  (9 fa_cube :foreground "#7C4DFF")
+			  (10 fa_cog :foreground "#FF9800")
+			  (11 . md_settings_system_daydream)
+			  (12 fa_cog :foreground "#FF9800")
+			  (13 md_storage :face font-lock-type-face)
+			  (14 md_closed_caption :foreground "#009688")
+			  (15 . md_closed_caption)
+			  (16 md_color_lens :face font-lock-doc-face)
+			  (17 . fa_file_text_o)
+			  (18 . md_refresh)
+			  (19 . fa_folder_open)
+			  (20 md_closed_caption :foreground "#009688")
+			  (21 fa_square :face font-lock-constant-face)
+			  (22 fa_cube :face font-lock-type-face)
+			  (23 . fa_calendar)
+			  (24 . fa_square_o)
+			  (25 . fa_arrows)) t)
  '(company-box-icons-unknown 'fa_question_circle t)
  '(company-box-icons-yasnippet 'fa_bookmark t)
- '(company-global-modes
-   '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode))
- '(company-idle-delay nil)
  '(company-lsp-async t t)
  '(company-lsp-cache-candidates 'auto t)
- '(company-minimum-prefix-length 2)
  '(company-quickhelp-color-background "gray22")
- '(company-require-match 'never)
- '(company-show-numbers nil)
- '(company-tooltip-align-annotations t)
- '(company-tooltip-visible-p t t)
- '(doom-themes-enable-bold t)
- '(doom-themes-enable-italic t)
- '(doom-themes-neotree-file-icons t)
+	'(custom-safe-themes
+		 '("f302eb9c73ead648aecdc1236952b1ceb02a3e7fcd064073fb391c840ef84bca" default))
  '(evil-insert-state-cursor 'bar t)
- '(helm-completion-in-region-fuzzy-match t t)
- '(helm-ff-file-name-history-use-recentf t t)
- '(helm-mode-fuzzy-match t t)
- '(helm-split-window-inside-p t)
- '(js2-highlight-external-variables nil)
- '(js2-mode-show-parse-errors nil)
- '(js2-mode-show-strict-warnings nil)
- '(lsp-auto-guess-root t)
+ '(helm-minibuffer-history-key "M-p")
  '(lsp-clients-typescript-server "typescript-language-server" t)
  '(lsp-clients-typescript-server-args '("--stdio"))
- '(lsp-diagnostics-provider :none t)
- '(lsp-enable-eldoc t t)
- '(lsp-enable-indentation nil)
- '(lsp-enable-xref t)
- '(lsp-flycheck-enable nil t)
+ '(lsp-flycheck-enable nil t nil "Customized with use-package lsp-mode")
  '(lsp-prefer-flymake :none t)
- '(lsp-response-timeout 30)
- '(lsp-ui-doc-enable t t)
  '(lsp-ui-flycheck-enable nil t)
- '(lsp-ui-imenu-enable nil t)
- '(lsp-ui-peek-enable t t)
- '(lsp-ui-sideline-enable nil t)
- '(lsp-ui-sideline-show-hover nil t)
- '(neo-auto-indent-point t)
- '(neo-autorefresh nil)
- '(neo-banner-message "Press ? for neotree help")
- '(neo-create-file-auto-open nil)
- '(neo-dont-be-alone t t)
- '(neo-mode-line-type 'neotree)
- '(neo-persist-show nil t)
- '(neo-show-updir-line nil)
- '(neo-smart-open nil)
- '(neo-theme 'icon)
- '(neo-vc-integration t)
- '(neo-window-width 32)
- '(omnisharp-debug nil t)
- '(package-selected-packages
-   '(tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader)))
+	'(package-selected-packages
+		 '(rustic tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

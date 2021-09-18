@@ -148,6 +148,8 @@
 		"m=r" 'lsp-format-region))
 
 	(use-package prettier-js
+		:custom
+		(prettier-js-show-errors nil)
 		:hook (js2-mode . prettier-js-mode)
 			  (js-jsx-mode . prettier-js-mode)
 			  (typescript-mode . prettier-js-mode)
