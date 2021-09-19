@@ -36,6 +36,7 @@
 			(js-jsx-mode . lsp-headerline-breadcrumb-mode)
 			(typescript-mode . lsp-headerline-breadcrumb-mode)
 			(lsp-mode . lsp-enable-which-key-integration)
+			(prog-mode . lsp)
 		:custom
 			(lsp-modeline-code-actions-segments `(count icon name))
 			(lsp-response-timeout 30)
