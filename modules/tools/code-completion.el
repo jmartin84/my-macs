@@ -50,7 +50,8 @@
 			(lsp-flycheck-enable t)
 			(lsp-hover t)
 			(lsp-prefer-capf t)
-		(lsp-enable-indentation nil)
+			(lsp-enable-indentation nil)
+			(advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
 		)
 
 	(use-package lsp-treemacs :commands lsp-treemacs-errors-list)

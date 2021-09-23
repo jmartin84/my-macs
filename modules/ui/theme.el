@@ -19,6 +19,8 @@
 			(agenda . 5)
 			(registers . 5))))
 
+	(use-package rainbow-mode)
+
   (use-package doom-themes
 	:after (all-the-icons neotree)
 	:custom
