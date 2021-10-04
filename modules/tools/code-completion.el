@@ -52,9 +52,11 @@
 			(lsp-prefer-capf t)
 			(lsp-enable-indentation nil)
 			(advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
+			(gc-cons-threshold 100000000)
+			(read-process-output-max (* 1024 1024))
 		)
 
-	(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+	(use-package lsp-treemacs :after (lsp-mode treemacs) :commands lsp-treemacs-errors-list)
 
 
 	(use-package lsp-ui
