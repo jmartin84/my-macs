@@ -22,11 +22,12 @@
 	(use-package rainbow-mode)
 
   (use-package doom-themes
-	:after (all-the-icons neotree)
+	 :ensure t
+	:after (all-the-icons )
 	:custom
 		(doom-themes-enable-bold t)
 		(doom-themes-enable-italic t)
-		(doom-themes-neotree-file-icons t)
+		(doom-themes-treemacs-file-icons t)
 	:config
 	  ;;(load-theme 'doom-snazzy t)
 	  ;;(load-theme 'doom-ephemeral t)
@@ -36,8 +37,10 @@
 		;;(load-theme 'doom-vibrant t)
 		;; (load-theme 'doom-spacegrey t)
 		 (load-theme 'doom-one t)
-	  (doom-themes-neotree-config)
-	  (require 'doom-themes-ext-neotree)
+	(setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+	  (doom-themes-treemacs-config)
+	  (require 'doom-themes-ext-treemacs)
+
 	  (doom-themes-visual-bell-config))
 
 	(use-package solaire-mode

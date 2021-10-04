@@ -233,7 +233,7 @@
     (evil-leader/set-key "pf" 'helm-projectile-find-file)
     (evil-leader/set-key "pse" 'editorconfig-find-current-editorconfig)
     (evil-leader/set-key "po" 'helm-projectile-switch-project)
-    (evil-leader/set-key "pt" 'my/open-neotree-project-root-or-current-dir)
+    (evil-leader/set-key "pt" 'treemacs-display-current-project-exclusively)
 
     ;; search
     (evil-leader/set-key "sA" 'helm-do-ag)
@@ -335,11 +335,10 @@
  '(helm-minibuffer-history-key "M-p")
  '(lsp-clients-typescript-server "typescript-language-server" t)
  '(lsp-clients-typescript-server-args '("--stdio"))
- '(lsp-flycheck-enable nil t nil "Customized with use-package lsp-mode")
  '(lsp-prefer-flymake :none t)
  '(lsp-ui-flycheck-enable nil t)
 	'(package-selected-packages
-		 '(rustic tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader)))
+		 '(treemacs-magit treemacs-projectile treemacs-evil rustic tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
