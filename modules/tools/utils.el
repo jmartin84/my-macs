@@ -7,7 +7,7 @@
 	(message "Bootstrap: utils")
 
 	;; restart emacs
-	(use-package restart-emacs :pin melpa-stable)
+	(use-package restart-emacs )
 
 	(use-package editorconfig
 		:ensure t

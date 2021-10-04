@@ -37,12 +37,10 @@
 	;;projectile
 	(use-package projectile
 		:ensure t
-		:pin melpa-stable
 		:hook (after-init . projectile-mode))
 
 	;; helm-projectile
 	(use-package helm-projectile
-		:pin melpa-stable
 		:after (helm projectile))
 
 	;; neo-tree

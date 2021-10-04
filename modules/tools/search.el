@@ -47,7 +47,6 @@
 
 	;; helm
 	(use-package helm
-	:pin melpa-stable
 	:custom
 		(helm-split-window-inside-p t)
 		(helm-ff-file-name-history-use-recentf t)
@@ -56,7 +55,6 @@
 
 	;; helm-ag
 	(use-package helm-ag
-	:pin melpa-stable
 		:after (helm))
 
 	(use-package auto-highlight-symbol
