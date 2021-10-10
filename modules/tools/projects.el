@@ -5,18 +5,18 @@
 
 ;;;###autoload
 (defun my/toggle-treemacs ()
-  "Open NeoTree using the project root, using projectile, or the current buffer directory."
+  "Toggle Treemacs"
   (interactive)
-    (if (try-completion " *Treemacs-" (mapcar #'buffer-name (buffer-list)))
-		;;(delete-window (treemacs-get-local-window))
-		(message "open")
-        (treemacs-display-current-project-exclusively)
-		))
+	(let ((treemacs-buffer (try-completion " *Treemacs-" (mapcar #'buffer-name (buffer-list)))))
+		(if (eq treemacs-buffer nil)
+			(treemacs-display-current-project-exclusively)
+			(progn (delete-windows-on treemacs-buffer)
+				(kill-buffer treemacs-buffer)))))
 
 ;; from https://github.com/jaypei/emacs-neotree/issues/149
 ;;;###autoload
 (defun my/open-neotree-project-root-or-current-dir ()
-  "Open NeoTree using the project root, using projectile, or the current buffer directory."
+  "Toggle Neotree"
   (interactive)
   (let ((project-dir (ignore-errors (projectile-project-root)))
         (file-name (buffer-file-name))

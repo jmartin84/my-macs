@@ -233,7 +233,8 @@
     (evil-leader/set-key "pf" 'helm-projectile-find-file)
     (evil-leader/set-key "pse" 'editorconfig-find-current-editorconfig)
     (evil-leader/set-key "po" 'helm-projectile-switch-project)
-    (evil-leader/set-key "pt" 'treemacs-display-current-project-exclusively)
+    ;;(evil-leader/set-key "pt" 'treemacs-display-current-project-exclusively)
+    (evil-leader/set-key "pt" 'my/toggle-treemacs)
 
     ;; search
     (evil-leader/set-key "sA" 'helm-do-ag)
