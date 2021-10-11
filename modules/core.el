@@ -5,10 +5,10 @@
 ; Externals
 (defvar modules-dir)
 
-(defun my/init-exec-path () ()
-    (when (memq window-system '(mac ns x))
-	(exec-path-from-shell-initialize)))
-
+;;;###autoload
+(defun my/delete-buffer-and-window (buffer)()
+	(progn (delete-windows-on buffer)
+			(kill-buffer buffer)))
 
 ;;;###autoload
 (defun my/bootstrap ()
@@ -22,7 +22,8 @@
 
 	(use-package exec-path-from-shell
 		:ensure t
-		:config (my/init-exec-path))
+		:config (when (memq window-system '(mac ns x))
+					(exec-path-from-shell-initialize)))
 
 	; bootstrap submodules
 	(my/bootstrap--ui)

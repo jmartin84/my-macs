@@ -6,37 +6,14 @@
 ;;;### (autoloads nil "core" "core.el" (0 0 0 0))
 ;;; Generated autoloads from core.el
 
-(autoload 'my/bootstrap "core" "\
+(autoload 'my/init-exec-path "core" nil nil nil)
+
+(autoload 'my/delete-buffer-and-window "core" "\
 
 
-\(fn)" nil nil)
+\(fn BUFFER)" nil nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "core" '(#("my/init-exec-path" 0 7 (face font-lock-function-name-face fontified nil) 7 17 (face font-lock-function-name-face fontified nil)))))
-
-;;;***
-
-;;;### (autoloads nil "helpers" "helpers.el" (0 0 0 0))
-;;; Generated autoloads from helpers.el
-
-(autoload 'my/log-package-init "helpers" "\
-
-
-\(fn PACKAGENAME)" nil nil)
-
-(autoload 'my/not-implemented "helpers" "\
-
-
-\(fn)" nil nil)
-
-(autoload 'my/open-messages-buffer "helpers" "\
-
-
-\(fn)" t nil)
-
-(autoload 'my/restart-and-debug "helpers" "\
-
-
-\(fn)" t nil)
+(autoload 'my/bootstrap "core" nil nil nil)
 
 ;;;***
 

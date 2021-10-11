@@ -10,8 +10,7 @@
 	(let ((treemacs-buffer (try-completion " *Treemacs-" (mapcar #'buffer-name (buffer-list)))))
 		(if (eq treemacs-buffer nil)
 			(treemacs-display-current-project-exclusively)
-			(progn (delete-windows-on treemacs-buffer)
-				(kill-buffer treemacs-buffer)))))
+			(my/delete-buffer-and-window treemacs-buffer))))
 
 ;; from https://github.com/jaypei/emacs-neotree/issues/149
 ;;;###autoload

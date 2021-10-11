@@ -8,6 +8,8 @@
 
 	(use-package page-break-lines)
 
+	(use-package rainbow-delimiters
+		:hook (prog-mode . rainbow-delimiters-mode))
 
 	(use-package dashboard
 		:ensure t
@@ -19,7 +21,7 @@
 			(agenda . 5)
 			(registers . 5))))
 
-	(use-package rainbow-mode)
+ (use-package rainbow-mode)
 
   (use-package doom-themes
 	 :ensure t
@@ -42,11 +44,6 @@
 	  (require 'doom-themes-ext-treemacs)
 
 	  (doom-themes-visual-bell-config))
-
-	(use-package solaire-mode
-		:hook (doom-load-theme . solaire-global-mode)
-			(which-key-init-buffer . solaire-mode)
-	)
 
 (use-package solaire-mode
   :after (doom-themes)

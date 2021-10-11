@@ -22,7 +22,7 @@
 
 (autoload 'my/bootstrap--lang-javascript "javascript" nil nil nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "javascript" '("my/company-" "setup-tide-mode")))
+(register-definition-prefixes "javascript" '("my/company-" "setup-tide-mode"))
 
 ;;;***
 
@@ -30,6 +30,13 @@
 ;;; Generated autoloads from lang.el
 
 (autoload 'my/bootstrap--lang "lang" nil nil nil)
+
+;;;***
+
+;;;### (autoloads nil "misc-langs" "misc-langs.el" (0 0 0 0))
+;;; Generated autoloads from misc-langs.el
+
+(autoload 'my/bootstrap--lang-misc "misc-langs" nil nil nil)
 
 ;;;***
 
