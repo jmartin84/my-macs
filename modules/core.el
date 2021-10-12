@@ -4,6 +4,9 @@
 
 ; Externals
 (defvar modules-dir)
+(declare-function my/bootstrap--ui "ui/ui.el" ())
+(declare-function my/bootstrap--tools "tools/tools.el" ())
+(declare-function my/bootstrap--lang "lang/lang.el" ())
 
 ;;;###autoload
 (defun my/delete-buffer-and-window (buffer)()

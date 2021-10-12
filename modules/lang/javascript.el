@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+(declare-function company-grab-symbol "company" ())
+(declare-function flycheck-add-next-checker "flycheck" (checker next &optional append))
+
 (defun my/company-transformer (candidates)
   (let ((completion-ignore-case t))
 	(message "%s" (all-completions (company-grab-symbol) candidates))
@@ -11,6 +14,7 @@
   (message "company hook")
   (make-local-variable 'company-transformers)
   (push 'my/company-transformer company-transformers))
+
 
 (defun setup-tide-mode ()
 	(interactive)

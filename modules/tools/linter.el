@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(declare-function flycheck-add-mode "flycheck" (checker mode))
+
 ;;;###autoload
 (defun my/bootstrap--tools-flycheck ()
 	(message "Boostrap: tools-flycheck")

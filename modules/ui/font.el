@@ -4,6 +4,9 @@
 ;;;###autoload
 (defun my/bootstrap--ui-font ()
 	(message "Bootstrap: ui-font")
+
+	(load (concat modules-dir "vendor/font-lock+"))
+
 	(setq whitespace-style
 		(quote (face
 				trailing
