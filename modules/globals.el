@@ -12,6 +12,10 @@
 ;; probably whichkey
 (defvar evil-want-keybinding nil)
 (setq package-check-signature nil)
+(setq use-package-verbose t)
+(setq use-short-answers t)
+(setq kill-buffer-delete-auto-save-files t)
+(setq mode-line-compact 'long)
 
 ;; functions
 

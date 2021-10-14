@@ -115,8 +115,6 @@
 				"m=f" 'lsp-format-buffer
 				"m=r" 'lsp-format-region))
 
-	(use-package graphql-mode)
-
 	(use-package js2-mode
 		:custom
 			(js2-mode-show-strict-warnings nil)
@@ -125,7 +123,7 @@
 		:init
 			(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 			(add-to-list 'auto-mode-alist '("\\.mjs\\'" . js2-mode))
-		(add-hook 'js-mode-hook 'my/company-js-hook)
+			(add-hook 'js-mode-hook 'my/company-js-hook)
 
 		(which-key-add-major-mode-key-based-replacements 'js2-mode
 			"<SPC> mf" "find"
@@ -153,7 +151,7 @@
 
 	(use-package prettier-js
 		:custom
-		(prettier-js-show-errors nil)
+			(prettier-js-show-errors nil)
 		:hook (js2-mode . prettier-js-mode)
 			  (js-jsx-mode . prettier-js-mode)
 			  (typescript-mode . prettier-js-mode)

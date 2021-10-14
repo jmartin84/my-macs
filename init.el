@@ -5,11 +5,11 @@
 ;; package config
 (message "--Configuring package management--")
 (require 'package)
-;;(setq package-enable-at-startup nil)
 (package-initialize)
 
 (defvar emacs-dir (file-truename user-emacs-directory) "Path to Emacs dir.")
 (defvar modules-dir (concat emacs-dir "modules/") "Path to modules dir.")
+
 
 ;; load global definitions
 (load (concat modules-dir "globals"))
@@ -267,7 +267,7 @@
  '(lsp-prefer-flymake :none t)
  '(lsp-ui-flycheck-enable nil t)
  '(package-selected-packages
-	  '(csv-mode treemacs treemacs-magit treemacs-projectile treemacs-evil rustic tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))
+	  '(## csv-mode treemacs treemacs-magit treemacs-projectile treemacs-evil rustic tide js-mode web-mode lsp-treemacs gnu-elpa-keyring-update flycheck-dogma flycheck-dialyxir flycheck-credo flycheck-elixir flycheck-elixir-credo graphql-mode typescript-mode mocha mmm-mode vue-mode dap-go dap-node lsp-java dap-mode yasnippet solaire-mode lsp-clients lsp dockerfile-mode evil-magit go go-mode alchemist elixir-mode magit company-tern lsp-typescript helm-ag neotree hydra auto-highlight-symbol all-the-icons-dired "epl" "epm" company-terraform terraform-mode omnisharp omnisharp-mode yaml-mode prettier-js add-node-modules-path rjsx-mode json-mode lsp-ui lsp-javascript-typescript js2-mode company-lsp lsp-mode company-next rainbow-delimiters flycheck git-gutter+ git-gutter-fringe+ fringe-helper git-gutter editorconfig evil-anzu doom-modeline exec-path-from-shell helm-projectile restart-emacs autopair frame-local ov s projectile company-quickhelp icons-in-terminal string-trim all-the-icons company-box company company-mode jbeans jbeans-theme which-key use-package helm evil-leader))
  '(warning-suppress-log-types '(((evil-collection)) (lsp-mode) (comp)))
  '(warning-suppress-types '(((evil-collection)) (lsp-mode) (comp))))
 (custom-set-faces

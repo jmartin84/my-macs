@@ -13,13 +13,35 @@
 
 	(use-package dashboard
 		:ensure t
-		:config
-		(dashboard-setup-startup-hook)
+		:custom
+			(dashboard-set-init-info t)
+			(dashboard-set-navigator nil)
+			(dashboard-set-heading-icons t)
+			(dashboard-set-file-icons t)
+			(dashboard-center-content t)
+			(dashboard-startup-banner 'logo)
+			(dashboard-show-shortcuts t)
 
-		(setq dashboard-items '((recents  . 5)
-			(projects . 5)
-			(agenda . 5)
-			(registers . 5))))
+			(dashboard-navigator-buttons
+				`(;; line1
+					((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+					"Homepage"
+					"Browse homepage"
+					(lambda (&rest _) (browse-url "homepage")))
+					("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+					("?" "" "?/h" #'show-help nil "<" ">"))
+					;; line 2
+					((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+					"Linkedin"
+					""
+					(lambda (&rest _) (browse-url "homepage")))
+					("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+
+			(dashboard-items '((recents  . 5)
+				(projects . 5)
+				))
+		:config
+			(dashboard-setup-startup-hook))
 
  (use-package rainbow-mode)
 
@@ -39,7 +61,7 @@
 		;;(load-theme 'doom-vibrant t)
 		;; (load-theme 'doom-spacegrey t)
 		 (load-theme 'doom-one t)
-	(setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+		(setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
 	  (doom-themes-treemacs-config)
 	  (require 'doom-themes-ext-treemacs)
 

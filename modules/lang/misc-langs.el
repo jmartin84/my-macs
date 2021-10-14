@@ -5,12 +5,13 @@
 ;;;###autoload
 (defun my/bootstrap--lang-misc ()
 	(message "Boostrap: lang-misc")
+	(use-package graphql-mode)
+
 	(use-package json-mode
-		:init
-		(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
+		:mode "\\.json\\'")
 
 	(use-package yaml-mode
-		:init (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+		:mode "\\.yaml\\'")
 
 	(use-package terraform-mode)
 
@@ -18,7 +19,7 @@
 		:init (company-terraform-init))
 
 	(use-package csv-mode
-		:init (add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode)))
+		:mode "\\.csv\\'")
 
 	(use-package dockerfile-mode
 		:init (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))

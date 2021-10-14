@@ -11,8 +11,9 @@
 
 	(use-package editorconfig
 		:ensure t
-		:config
-		(editorconfig-mode 1))
+		:hook
+			(prog-mode . editorconfig-mode)
+			(text-mode . editorconfig-mode))
 
 	(use-package hydra)
 	)

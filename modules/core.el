@@ -25,8 +25,9 @@
 
 	(use-package exec-path-from-shell
 		:ensure t
-		:config (when (memq window-system '(mac ns x))
-					(exec-path-from-shell-initialize)))
+		:if (memq window-system '(mac ns))
+		:custom (exec-path-from-shell-arguments '("-l"))
+		:config (exec-path-from-shell-initialize))
 
 	; bootstrap submodules
 	(my/bootstrap--ui)
