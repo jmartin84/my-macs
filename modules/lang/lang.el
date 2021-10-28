@@ -13,6 +13,7 @@
 	(my/bootstrap--lang-csharp)
 	(my/bootstrap--lang-go)
 	(my/bootstrap--lang-javascript)
+	(my/bootstrap--lang-python)
 	(my/bootstrap--lang-misc))
 
 (provide 'lang)

@@ -40,6 +40,13 @@
 
 ;;;***
 
+;;;### (autoloads nil "python-lang" "python-lang.el" (0 0 0 0))
+;;; Generated autoloads from python-lang.el
+
+(autoload 'my/bootstrap--lang-python "python-lang" nil nil nil)
+
+;;;***
+
 (provide '.autoload)
 ;; Local Variables:
 ;; version-control: never
